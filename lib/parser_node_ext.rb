@@ -233,6 +233,13 @@ module ParserNodeExt
           self
         end
       end
+
+      # Get the source code of node.
+      #
+      # @return [String] source code.
+      def to_source
+        loc.expression&.source
+      end
     end
   end
 end

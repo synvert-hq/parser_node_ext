@@ -392,4 +392,12 @@ RSpec.describe ParserNodeExt do
       expect(node.to_value).to eq ['str', :str]
     end
   end
+
+  describe '#to_source' do
+    it 'gets for node' do
+      source = 'params[:user][:email]'
+      node = parse(source)
+      expect(node.to_source).to eq 'params[:user][:email]'
+    end
+  end
 end
