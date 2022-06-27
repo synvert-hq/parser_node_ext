@@ -203,6 +203,36 @@ module ParserNodeExt
           raise Synvert::Core::MethodNotSupported, "keys is not handled for #{debug_info}"
         end
       end
+
+      # Return the exact value of node.
+      # It supports :array, :begin, :erange, :false, :float, :irange, :int, :str, :sym and :true nodes.
+      # @example
+      #   node # s(:array, s(:str, "str"), s(:sym, :str))
+      #   node.to_value # ['str', :str]
+      # @return [Object] exact value.
+      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      def to_value
+        case type
+        when :int, :float, :str, :sym
+          children.last
+        when :true
+          true
+        when :false
+          false
+        when :nil
+          nil
+        when :array
+          children.map(&:to_value)
+        when :irange
+          (children.first.to_value..children.last.to_value)
+        when :erange
+          (children.first.to_value...children.last.to_value)
+        when :begin
+          children.first.to_value
+        else
+          self
+        end
+      end
     end
   end
 end

@@ -343,4 +343,53 @@ RSpec.describe ParserNodeExt do
       expect(node.right_value).to eq parse('bar')
     end
   end
+
+  describe '#to_value' do
+    it 'gets for int' do
+      node = parse('1')
+      expect(node.to_value).to eq 1
+    end
+
+    it 'gets for float' do
+      node = parse('1.5')
+      expect(node.to_value).to eq 1.5
+    end
+
+    it 'gets for string' do
+      node = parse("'str'")
+      expect(node.to_value).to eq 'str'
+    end
+
+    it 'gets for symbol' do
+      node = parse(':str')
+      expect(node.to_value).to eq :str
+    end
+
+    it 'gets for boolean' do
+      node = parse('true')
+      expect(node.to_value).to be_truthy
+      node = parse('false')
+      expect(node.to_value).to be_falsey
+    end
+
+    it 'gets for nil' do
+      node = parse('nil')
+      expect(node.to_value).to be_nil
+    end
+
+    it 'gets for irange' do
+      node = parse('(1..10)')
+      expect(node.to_value).to eq(1..10)
+    end
+
+    it 'gets for erange' do
+      node = parse('(1...10)')
+      expect(node.to_value).to eq(1...10)
+    end
+
+    it 'gets for array' do
+      node = parse("['str', :str]")
+      expect(node.to_value).to eq ['str', :str]
+    end
+  end
 end
