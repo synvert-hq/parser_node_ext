@@ -204,6 +204,37 @@ module ParserNodeExt
         end
       end
 
+      # Check if :hash node contains specified key.
+      # @example
+      #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))
+      #   node.key?(:foo) # true
+      # @param [Symbol, String] key value.
+      # @return [Boolean] true if specified key exists.
+      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      def key?(key)
+        if :hash == type
+          children.any? { |pair_node| pair_node.key.to_value == key }
+        else
+          raise Synvert::Core::MethodNotSupported, "key? is not handled for #{debug_info}"
+        end
+      end
+
+      # Get :hash value node according to specified key.
+      # @example
+      #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))
+      #   node.hash_value(:foo) # s(:sym, :bar)
+      # @param [Symbol, String] key value.
+      # @return [Parser::AST::Node] hash value of node.
+      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      def hash_value(key)
+        if :hash == type
+          value_node = children.find { |pair_node| pair_node.key.to_value == key }
+          value_node&.value
+        else
+          raise Synvert::Core::MethodNotSupported, "hash_value is not handled for #{debug_info}"
+        end
+      end
+
       # Return the exact value of node.
       # It supports :array, :begin, :erange, :false, :float, :irange, :int, :str, :sym and :true nodes.
       # @example
@@ -239,6 +270,45 @@ module ParserNodeExt
       # @return [String] source code.
       def to_source
         loc.expression&.source
+      end
+
+      # Respond key value and source for hash node, e.g.
+      # @example
+      #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))
+      #   node.foo_value # :bar
+      #   node.foo_source # ":bar"
+      def method_missing(method_name, *args, &block)
+        if :args == type && children.respond_to?(method_name)
+          return children.send(method_name, *args, &block)
+        elsif :hash == type && method_name.to_s.include?('_value')
+          key = method_name.to_s.sub('_value', '')
+          return hash_value(key.to_sym)&.to_value if key?(key.to_sym)
+          return hash_value(key.to_s)&.to_value if key?(key.to_s)
+
+          return nil
+        elsif :hash == type && method_name.to_s.include?('_source')
+          key = method_name.to_s.sub('_source', '')
+          return hash_value(key.to_sym)&.to_source if key?(key.to_sym)
+          return hash_value(key.to_s)&.to_source if key?(key.to_s)
+
+          return nil
+        end
+
+        super
+      end
+
+      def respond_to_missing?(method_name, *args)
+        if :args == type && children.respond_to?(method_name)
+          return true
+        elsif :hash == type && method_name.to_s.include?('_value')
+          key = method_name.to_s.sub('_value', '')
+          return true if key?(key.to_sym) || key?(key.to_s)
+        elsif :hash == type && method_name.to_s.include?('_source')
+          key = method_name.to_s.sub('_source', '')
+          return true if key?(key.to_sym) || key?(key.to_s)
+        end
+
+        super
       end
     end
   end

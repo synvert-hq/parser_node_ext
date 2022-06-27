@@ -258,6 +258,54 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#key?' do
+    it 'gets true if key exists' do
+      node = parse('{:foo => :bar}')
+      expect(node.key?(:foo)).to be_truthy
+    end
+
+    it 'gets false if key does not exist' do
+      node = parse('{:foo => :bar}')
+      expect(node.key?('foo')).to be_falsey
+    end
+  end
+
+  describe '#hash_value' do
+    it 'gets value of specified key' do
+      node = parse('{:foo => :bar}')
+      expect(node.hash_value(:foo)).to eq parse(':bar')
+    end
+
+    it 'gets nil if key does not exist' do
+      node = parse('{:foo => :bar}')
+      expect(node.hash_value(:bar)).to be_nil
+    end
+  end
+
+  describe 'key value by method_missing' do
+    it 'gets for key value' do
+      node = parse('{:foo => :bar}')
+      expect(node.foo_value).to eq :bar
+
+      node = parse("{'foo' => 'bar'}")
+      expect(node.foo_value).to eq 'bar'
+
+      expect(node.bar_value).to be_nil
+    end
+  end
+
+  describe 'key value source by method_missing' do
+    it 'gets for key value source' do
+      node = parse('{:foo => :bar}')
+      expect(node.foo_source).to eq ':bar'
+
+      node = parse("{'foo' => 'bar'}")
+      expect(node.foo_source).to eq "'bar'"
+
+      expect(node.bar_source).to be_nil
+    end
+  end
+
   describe '#condition' do
     it 'gets for if node' do
       node = parse('if defined?(Bundler); end')
