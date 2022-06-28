@@ -2,17 +2,17 @@ module ParserNodeExt
   VERSION: String
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
 
-  def arguments: Array[Parser::AST::Node]
-  def body: Array[Parser::AST::Node]
-  def caller: Parser::AST::Node
-  def key: Parser::AST::Node
-  def left_value: Parser::AST::Node | Symbol
-  def message: Symbol
-  def name: Parser::AST::Node | Symbol
-  def pairs: Array[Parser::AST::Node]
-  def parent_class: Parser::AST::Node
-  def receiver: Parser::AST::Node
-  def right_value: Parser::AST::Node
-  def self: Parser::AST::Node
-  def value: Parser::AST::Node
+  def arguments: () -> Array[Parser::AST::Node]
+  def body: () -> Array[Parser::AST::Node]
+  def caller: () -> Parser::AST::Node
+  def key: () -> Parser::AST::Node
+  def left_value: () -> Parser::AST::Node | Symbol
+  def message: () -> Symbol
+  def name: () -> Parser::AST::Node | Symbol
+  def pairs: () -> Array[Parser::AST::Node]
+  def parent_class: () -> Parser::AST::Node
+  def receiver: () -> Parser::AST::Node
+  def right_value: () -> Parser::AST::Node
+  def self: () -> Parser::AST::Node
+  def value: () -> Parser::AST::Node
 end
