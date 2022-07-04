@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.0 (2022-07-04)
+
+* Add `Node#to_hash`
+
 ## 0.2.0 (2022-06-27)
 
 * Add `Node#to_value`
