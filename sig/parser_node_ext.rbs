@@ -15,4 +15,6 @@ module ParserNodeExt
   def right_value: () -> Parser::AST::Node
   def self: () -> Parser::AST::Node
   def value: () -> Parser::AST::Node
+
+  def to_hash: () -> Hash
 end
