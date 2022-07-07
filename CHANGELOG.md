@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.0 (2022-07-07)
+
+* raise `MethodNotSupported` error
+
 ## 0.3.0 (2022-07-04)
 
 * Add `Node#to_hash`
