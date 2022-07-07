@@ -93,7 +93,7 @@ module ParserNodeExt
           index = TYPE_CHILDREN[type]&.index(method_name)
           return children[index] if index
 
-          raise Synvert::Core::MethodNotSupported, "#{method_name} is not handled for #{debug_info}"
+          raise MethodNotSupported, "#{method_name} is not handled for #{debug_info}"
         end
       end
 
@@ -103,14 +103,14 @@ module ParserNodeExt
       #   node # s(:or_asgn, s(:lvasgn, :a), s(:int, 1))
       #   node.left_value # :a
       # @return [Parser::AST::Node] left value of node.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def left_value
         return children[0].children[0] if type == :or_asgn
 
         index = TYPE_CHILDREN[type]&.index(:left_value)
         return children[index] if index
 
-        raise Synvert::Core::MethodNotSupported, "#{left_value} is not handled for #{debug_info}"
+        raise MethodNotSupported, "#{left_value} is not handled for #{debug_info}"
       end
 
       # Get arguments of node.
@@ -119,7 +119,7 @@ module ParserNodeExt
       #   node # s(:send, s(:const, nil, :FactoryGirl), :create, s(:sym, :post), s(:hash, s(:pair, s(:sym, :title), s(:str, "post"))))
       #   node.arguments # [s(:sym, :post), s(:hash, s(:pair, s(:sym, :title), s(:str, "post")))]
       # @return [Array<Parser::AST::Node>] arguments of node.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def arguments
         case type
         when :def, :block
@@ -131,7 +131,7 @@ module ParserNodeExt
         when :defined?
           children
         else
-          raise Synvert::Core::MethodNotSupported, "arguments is not handled for #{debug_info}"
+          raise MethodNotSupported, "arguments is not handled for #{debug_info}"
         end
       end
 
@@ -141,7 +141,7 @@ module ParserNodeExt
       #   node # s(:block, s(:send, s(:const, nil, :RSpec), :configure), s(:args, s(:arg, :config)), s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers)))
       #   node.body # [s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers))]
       # @return [Array<Parser::AST::Node>] body of node.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def body
         case type
         when :begin
@@ -155,7 +155,7 @@ module ParserNodeExt
 
           :begin == children[3].type ? children[3].body : children[3..-1]
         else
-          raise Synvert::Core::MethodNotSupported, "body is not handled for #{debug_info}"
+          raise MethodNotSupported, "body is not handled for #{debug_info}"
         end
       end
 
@@ -165,12 +165,12 @@ module ParserNodeExt
       #   node # s(:if, s(:defined?, s(:const, nil, :Bundler)), nil, nil)
       #   node.condition # s(:defined?, s(:const, nil, :Bundler))
       # @return [Parser::AST::Node] condition of node.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def condition
         if :if == type
           children[0]
         else
-          raise Synvert::Core::MethodNotSupported, "condition is not handled for #{debug_info}"
+          raise MethodNotSupported, "condition is not handled for #{debug_info}"
         end
       end
 
@@ -179,12 +179,12 @@ module ParserNodeExt
       #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)), s(:pair, s(:str, "foo"), s(:str, "bar")))
       #   node.keys # [s(:sym, :foo), s(:str, "foo")]
       # @return [Array<Parser::AST::Node>] keys of node.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def keys
         if :hash == type
           children.map { |child| child.children[0] }
         else
-          raise Synvert::Core::MethodNotSupported, "keys is not handled for #{debug_info}"
+          raise MethodNotSupported, "keys is not handled for #{debug_info}"
         end
       end
 
@@ -193,12 +193,12 @@ module ParserNodeExt
       #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)), s(:pair, s(:str, "foo"), s(:str, "bar")))
       #   node.values # [s(:sym, :bar), s(:str, "bar")]
       # @return [Array<Parser::AST::Node>] values of node.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def values
         if :hash == type
           children.map { |child| child.children[1] }
         else
-          raise Synvert::Core::MethodNotSupported, "keys is not handled for #{debug_info}"
+          raise MethodNotSupported, "keys is not handled for #{debug_info}"
         end
       end
 
@@ -208,12 +208,12 @@ module ParserNodeExt
       #   node.key?(:foo) # true
       # @param [Symbol, String] key value.
       # @return [Boolean] true if specified key exists.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def key?(key)
         if :hash == type
           children.any? { |pair_node| pair_node.key.to_value == key }
         else
-          raise Synvert::Core::MethodNotSupported, "key? is not handled for #{debug_info}"
+          raise MethodNotSupported, "key? is not handled for #{debug_info}"
         end
       end
 
@@ -223,13 +223,13 @@ module ParserNodeExt
       #   node.hash_value(:foo) # s(:sym, :bar)
       # @param [Symbol, String] key value.
       # @return [Parser::AST::Node] hash value of node.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def hash_value(key)
         if :hash == type
           value_node = children.find { |pair_node| pair_node.key.to_value == key }
           value_node&.value
         else
-          raise Synvert::Core::MethodNotSupported, "hash_value is not handled for #{debug_info}"
+          raise MethodNotSupported, "hash_value is not handled for #{debug_info}"
         end
       end
 
@@ -239,7 +239,7 @@ module ParserNodeExt
       #   node # s(:array, s(:str, "str"), s(:sym, :str))
       #   node.to_value # ['str', :str]
       # @return [Object] exact value.
-      # @raise [Synvert::Core::MethodNotSupported] if calls on other node.
+      # @raise [MethodNotSupported] if calls on other node.
       def to_value
         case type
         when :int, :float, :str, :sym
@@ -329,6 +329,19 @@ module ParserNodeExt
         end
 
         super
+      end
+
+      # Return the debug info.
+      #
+      # @return [String] file, line, source and node.
+      def debug_info
+        "\n" +
+          [
+            "file: #{loc.expression.source_buffer.name}",
+            "line: #{loc.expression.line}",
+            "source: #{to_source}",
+            "node: #{inspect}"
+          ].join("\n")
       end
     end
   end

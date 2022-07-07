@@ -491,4 +491,11 @@ RSpec.describe ParserNodeExt do
       )
     end
   end
+
+  describe 'not supported method' do
+    it 'raises MethodNotSupported error' do
+      node = parse('class Synvert; end')
+      expect { node.message }.to raise_error(ParserNodeExt::MethodNotSupported)
+    end
+  end
 end
