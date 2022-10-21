@@ -1,8 +1,12 @@
 # CHANGELOG
 
+## 0.4.1 (2022-10-21)
+
+* Update error message
+
 ## 0.4.0 (2022-07-07)
 
-* raise `MethodNotSupported` error
+* Raise `MethodNotSupported` error
 
 ## 0.3.0 (2022-07-04)
 
