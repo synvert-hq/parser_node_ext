@@ -93,7 +93,7 @@ module ParserNodeExt
           index = TYPE_CHILDREN[type]&.index(method_name)
           return children[index] if index
 
-          raise MethodNotSupported, "#{method_name} is not handled for #{debug_info}"
+          raise MethodNotSupported, "#{method_name} is not supported for #{self}"
         end
       end
 
@@ -110,7 +110,7 @@ module ParserNodeExt
         index = TYPE_CHILDREN[type]&.index(:left_value)
         return children[index] if index
 
-        raise MethodNotSupported, "#{left_value} is not handled for #{debug_info}"
+        raise MethodNotSupported, "#{left_value} is not supported for #{self}"
       end
 
       # Get arguments of node.
@@ -131,7 +131,7 @@ module ParserNodeExt
         when :defined?
           children
         else
-          raise MethodNotSupported, "arguments is not handled for #{debug_info}"
+          raise MethodNotSupported, "arguments is not supported for #{self}"
         end
       end
 
@@ -155,7 +155,7 @@ module ParserNodeExt
 
           :begin == children[3].type ? children[3].body : children[3..-1]
         else
-          raise MethodNotSupported, "body is not handled for #{debug_info}"
+          raise MethodNotSupported, "body is not supported for #{self}"
         end
       end
 
@@ -170,7 +170,7 @@ module ParserNodeExt
         if :if == type
           children[0]
         else
-          raise MethodNotSupported, "condition is not handled for #{debug_info}"
+          raise MethodNotSupported, "condition is not supported for #{self}"
         end
       end
 
@@ -184,7 +184,7 @@ module ParserNodeExt
         if :hash == type
           children.map { |child| child.children[0] }
         else
-          raise MethodNotSupported, "keys is not handled for #{debug_info}"
+          raise MethodNotSupported, "keys is not supported for #{self}"
         end
       end
 
@@ -198,7 +198,7 @@ module ParserNodeExt
         if :hash == type
           children.map { |child| child.children[1] }
         else
-          raise MethodNotSupported, "keys is not handled for #{debug_info}"
+          raise MethodNotSupported, "keys is not supported for #{self}"
         end
       end
 
@@ -213,7 +213,7 @@ module ParserNodeExt
         if :hash == type
           children.any? { |pair_node| pair_node.key.to_value == key }
         else
-          raise MethodNotSupported, "key? is not handled for #{debug_info}"
+          raise MethodNotSupported, "key? is not supported for #{self}"
         end
       end
 
@@ -229,7 +229,7 @@ module ParserNodeExt
           value_node = children.find { |pair_node| pair_node.key.to_value == key }
           value_node&.value
         else
-          raise MethodNotSupported, "hash_value is not handled for #{debug_info}"
+          raise MethodNotSupported, "hash_value is not supported for #{self}"
         end
       end
 
@@ -329,19 +329,6 @@ module ParserNodeExt
         end
 
         super
-      end
-
-      # Return the debug info.
-      #
-      # @return [String] file, line, source and node.
-      def debug_info
-        "\n" +
-          [
-            "file: #{loc.expression.source_buffer.name}",
-            "line: #{loc.expression.line}",
-            "source: #{to_source}",
-            "node: #{inspect}"
-          ].join("\n")
       end
     end
   end
