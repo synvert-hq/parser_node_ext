@@ -22,20 +22,27 @@ module ParserNodeExt
     def: %i[name arguments body],
     definded?: %i[arguments],
     defs: %i[self name arguments body],
+    false: [],
+    float: [],
     hash: %i[pairs],
+    int: [],
     ivasgn: %i[left_value right_value],
     ivar: %i[name],
     lvar: %i[name],
     lvasgn: %i[left_value right_value],
     masgn: %i[left_value right_value],
     module: %i[name body],
+    nil: [],
     or: %i[left_value right_value],
     or_asgn: %i[left_value right_value],
     pair: %i[key value],
     restarg: %i[name],
     send: %i[receiver message arguments],
+    str: [],
     super: %i[arguments],
-    zsuper: %i[]
+    sym: [],
+    true: [],
+    zsuper: []
   }
 
   def self.included(base)
