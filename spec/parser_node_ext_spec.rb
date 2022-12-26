@@ -230,6 +230,13 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#pairs' do
+    it 'get for hash node' do
+      node = parse("{:foo => :bar, 'foo' => 'bar'}")
+      expect(node.pairs).to eq [node.children[0], node.children[1]]
+    end
+  end
+
   describe '#keys' do
     it 'gets for hash node' do
       node = parse("{:foo => :bar, 'foo' => 'bar'}")
@@ -478,11 +485,11 @@ RSpec.describe ParserNodeExt do
               body: [
                 {
                   type: :hash,
-                  pairs: {
+                  pairs: [{
                     type: :pair,
                     key: { type: :lvar, name: :foo },
                     value: { type: :lvar, name: :bar }
-                  }
+                  }]
                 }
               ]
             }

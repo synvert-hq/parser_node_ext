@@ -181,6 +181,14 @@ module ParserNodeExt
         end
       end
 
+      def pairs
+        if :hash == type
+          children
+        else
+          raise MethodNotSupported, "pairs is not supported for #{self}"
+        end
+      end
+
       # Get keys of :hash node.
       # @example
       #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)), s(:pair, s(:str, "foo"), s(:str, "bar")))
