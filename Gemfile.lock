@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    parser_node_ext (0.5.0)
+    parser_node_ext (0.5.1)
       parser
 
 GEM
