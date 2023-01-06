@@ -25,6 +25,7 @@ module ParserNodeExt
     false: [],
     float: %i[value],
     hash: %i[pairs],
+    if: %i[expression if_body else_body],
     int: %i[value],
     ivasgn: %i[left_value right_value],
     ivar: %i[name],
@@ -152,18 +153,19 @@ module ParserNodeExt
         end
       end
 
-      # Get condition of node.
-      # It supports :if node.
-      # @example
-      #   node # s(:if, s(:defined?, s(:const, nil, :Bundler)), nil, nil)
-      #   node.condition # s(:defined?, s(:const, nil, :Bundler))
-      # @return [Parser::AST::Node] condition of node.
-      # @raise [MethodNotSupported] if calls on other node.
-      def condition
+      def if_body
         if :if == type
-          children[0]
+          :begin == children[1].type ? children[1].body : [children[1]]
         else
-          raise MethodNotSupported, "condition is not supported for #{self}"
+          raise MethodNotSupported, "if_body is not supported for #{self}"
+        end
+      end
+
+      def else_body
+        if :if == type
+          :begin == children[2].type ? children[2].body : [children[2]]
+        else
+          raise MethodNotSupported, "else_body is not supported for #{self}"
         end
       end
 

@@ -5,6 +5,9 @@ module ParserNodeExt
   def arguments: () -> Array[Parser::AST::Node]
   def body: () -> Array[Parser::AST::Node]
   def caller: () -> Parser::AST::Node
+  def else_body: () -> Array[Parser::AST::Node]
+  def expression: () -> Parser::AST::Node
+  def if_body: () -> Array[Parser::AST::Node]
   def key: () -> Parser::AST::Node
   def left_value: () -> Parser::AST::Node | Symbol
   def message: () -> Symbol

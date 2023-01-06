@@ -333,13 +333,6 @@ RSpec.describe ParserNodeExt do
     end
   end
 
-  describe '#condition' do
-    it 'gets for if node' do
-      node = parse('if defined?(Bundler); end')
-      expect(node.condition).to eq parse('defined?(Bundler)')
-    end
-  end
-
   describe '#left_value' do
     it 'gets for masgn' do
       node = parse('a, b = 1, 2')
@@ -416,6 +409,48 @@ RSpec.describe ParserNodeExt do
     it 'gets for or' do
       node = parse('foo || bar')
       expect(node.right_value).to eq parse('bar')
+    end
+  end
+
+  describe '#expression' do
+    it 'gets for if node' do
+      code = <<~CODE
+        if expression
+          true
+        else
+          false
+        end
+      CODE
+      node = parse(code)
+      expect(node.expression).to eq parse('expression')
+    end
+  end
+
+  describe '#if_body' do
+    it 'gets for if node' do
+      code = <<~CODE
+        if expression
+          true
+        else
+          false
+        end
+      CODE
+      node = parse(code)
+      expect(node.if_body).to eq [parse('true')]
+    end
+  end
+
+  describe '#else_body' do
+    it 'gets for if node' do
+      code = <<~CODE
+        if expression
+          true
+        else
+          false
+        end
+      CODE
+      node = parse(code)
+      expect(node.else_body).to eq [parse('false')]
     end
   end
 
