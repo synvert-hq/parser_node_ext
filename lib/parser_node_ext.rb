@@ -23,9 +23,9 @@ module ParserNodeExt
     definded?: %i[arguments],
     defs: %i[self name arguments body],
     false: [],
-    float: [],
+    float: %i[value],
     hash: %i[pairs],
-    int: [],
+    int: %i[value],
     ivasgn: %i[left_value right_value],
     ivar: %i[name],
     lvar: %i[name],
@@ -38,9 +38,9 @@ module ParserNodeExt
     pair: %i[key value],
     restarg: %i[name],
     send: %i[receiver message arguments],
-    str: [],
+    str: %i[value],
     super: %i[arguments],
-    sym: [],
+    sym: %i[value],
     true: [],
     zsuper: []
   }

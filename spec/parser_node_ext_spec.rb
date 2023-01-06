@@ -263,6 +263,26 @@ RSpec.describe ParserNodeExt do
       node = parse("{:foo => 'bar'}").children[0]
       expect(node.value).to eq parse("'bar'")
     end
+
+    it 'gets for str node' do
+      node = parse("'foo'")
+      expect(node.value).to eq 'foo'
+    end
+
+    it 'gets for sym node' do
+      node = parse(':foo')
+      expect(node.value).to eq :foo
+    end
+
+    it 'gets for int node' do
+      node = parse('1')
+      expect(node.value).to eq 1
+    end
+
+    it 'gets for float node' do
+      node = parse('1.1')
+      expect(node.value).to eq 1.1
+    end
   end
 
   describe '#key?' do
