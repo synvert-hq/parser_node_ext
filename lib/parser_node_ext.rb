@@ -14,6 +14,7 @@ module ParserNodeExt
     begin: %i[body],
     block: %i[caller arguments body],
     blockarg: %i[name],
+    case: %i[expression when_statements else_statement],
     const: %i[parent_const name],
     class: %i[name parent_class body],
     csend: %i[receiver message arguments],
@@ -25,7 +26,7 @@ module ParserNodeExt
     false: [],
     float: %i[value],
     hash: %i[pairs],
-    if: %i[expression if_body else_body],
+    if: %i[expression if_statement else_statement],
     int: %i[value],
     ivasgn: %i[left_value right_value],
     ivar: %i[name],
@@ -43,6 +44,7 @@ module ParserNodeExt
     super: %i[arguments],
     sym: %i[value],
     true: [],
+    when: %i[expression body],
     zsuper: []
   }
 
@@ -140,6 +142,10 @@ module ParserNodeExt
         case type
         when :begin
           children
+        when :when
+          return [] if children[1].nil?
+
+          :begin == children[1].type ? children[1].body : children[1..-1]
         when :def, :block, :class, :module
           return [] if children[2].nil?
 
@@ -153,22 +159,24 @@ module ParserNodeExt
         end
       end
 
-      def if_body
-        if :if == type
-          :begin == children[1].type ? children[1].body : [children[1]]
+      def when_statements
+        if :case == type
+          children[1...-1]
         else
-          raise MethodNotSupported, "if_body is not supported for #{self}"
+          raise MethodNotSupported, "when_statements is not supported for #{self}"
         end
       end
 
-      def else_body
-        if :if == type
-          :begin == children[2].type ? children[2].body : [children[2]]
-        else
-          raise MethodNotSupported, "else_body is not supported for #{self}"
-        end
+      def else_statement
+        children[-1]
       end
 
+      # Get pairs of :hash node.
+      # @example
+      #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)), s(:pair, s(:str, "foo"), s(:str, "bar")))
+      #   node.pairs # [s(:pair, s(:sym, :foo), s(:sym, :bar)), s(:pair, s(:str, "foo"), s(:str, "bar"))]
+      # @return [Array<Parser::AST::Node>] pairs of node.
+      # @raise [MethodNotSupported] if calls on other node.
       def pairs
         if :hash == type
           children

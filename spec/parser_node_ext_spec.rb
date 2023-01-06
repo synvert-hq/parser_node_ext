@@ -228,6 +228,20 @@ RSpec.describe ParserNodeExt do
       node = parse('def self.test; end')
       expect(node.body).to eq []
     end
+
+    it 'gets for when node' do
+      code = <<~CODE
+        case expression
+        when foo
+          'foo'
+        when bar
+          'bar'
+        else
+        end
+      CODE
+      node = parse(code)
+      expect(node.when_statements[0].body).to eq [parse("'foo'")]
+    end
   end
 
   describe '#pairs' do
@@ -424,23 +438,37 @@ RSpec.describe ParserNodeExt do
       node = parse(code)
       expect(node.expression).to eq parse('expression')
     end
-  end
 
-  describe '#if_body' do
-    it 'gets for if node' do
+    it 'gets for case node' do
       code = <<~CODE
-        if expression
-          true
+        case expression
+        when foo
+          'foo'
+        when bar
+          'bar'
         else
-          false
         end
       CODE
       node = parse(code)
-      expect(node.if_body).to eq [parse('true')]
+      expect(node.expression).to eq parse('expression')
+    end
+
+    it 'gets for when node' do
+      code = <<~CODE
+        case expression
+        when foo
+          'foo'
+        when bar
+          'bar'
+        else
+        end
+      CODE
+      node = parse(code)
+      expect(node.when_statements[0].expression).to eq parse('foo')
     end
   end
 
-  describe '#else_body' do
+  describe '#if_statement' do
     it 'gets for if node' do
       code = <<~CODE
         if expression
@@ -450,7 +478,51 @@ RSpec.describe ParserNodeExt do
         end
       CODE
       node = parse(code)
-      expect(node.else_body).to eq [parse('false')]
+      expect(node.if_statement).to eq parse('true')
+    end
+  end
+
+  describe '#when_statements' do
+    it 'gets for case node' do
+      code = <<~CODE
+        case expression
+        when foo
+          'foo'
+        when bar
+          'bar'
+        else
+        end
+      CODE
+      node = parse(code)
+      expect(node.when_statements).to eq node.children[1..2]
+    end
+  end
+
+  describe '#else_statment' do
+    it 'gets for if node' do
+      code = <<~CODE
+        if expression
+          true
+        else
+          false
+        end
+      CODE
+      node = parse(code)
+      expect(node.else_statement).to eq parse('false')
+    end
+
+    it 'gets for case node' do
+      code = <<~CODE
+        case expression
+        when foo
+          'foo'
+        when bar
+          'bar'
+        else
+        end
+      CODE
+      node = parse(code)
+      expect(node.else_statement).to be_nil
     end
   end
 
