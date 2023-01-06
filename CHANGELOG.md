@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.6.0 (2023-01-06)
+
+* Support `value` for `float`, `int`, `str` and `sym` nodes
+* Support `if` node
+* Support `case`/`when` node
+* Truly dynamically define methods based on const `TYPE_CHILDREN`
+
+## 0.5.1 (2022-12-26)
+
+* hash node pairs should return an array of pair nodes
+
+## 0.5.0 (2022-12-25)
+
+* Add primitive types
+
 ## 0.4.1 (2022-10-21)
 
 * Update error message
