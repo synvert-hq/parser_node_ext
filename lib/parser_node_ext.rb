@@ -21,7 +21,7 @@ module ParserNodeExt
     cvasgn: %i[left_value right_value],
     cvar: %i[name],
     def: %i[name arguments body],
-    definded?: %i[arguments],
+    defined?: %i[arguments],
     defs: %i[self name arguments body],
     false: [],
     float: %i[value],
