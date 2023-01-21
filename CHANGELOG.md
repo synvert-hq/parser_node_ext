@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.1 (2023-01-21)
+
+* Fix typo
+
 ## 0.6.0 (2023-01-06)
 
 * Support `value` for `float`, `int`, `str` and `sym` nodes
