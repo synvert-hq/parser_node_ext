@@ -161,6 +161,9 @@ module ParserNodeExt
         end
       end
 
+      # Get when statements of case node.
+      # @return [Array<Parser::AST::Node>] when statements of case node.
+      # @raise [MethodNotSupported] if calls on other node.
       def when_statements
         if :case == type
           children[1...-1]
@@ -169,8 +172,22 @@ module ParserNodeExt
         end
       end
 
+      # Get else statement of case node.
+      # @return [Parser::AST::Node] else statement of case node.
+      # @raise [MethodNotSupported] if calls on other node.
       def else_statement
         children[-1]
+      end
+
+      # Get elements of array node.
+      # @return [Array<Parser::AST::Node>] elements of array node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def elements
+        if :array == type
+          children
+        else
+          raise MethodNotSupported, "elements is not supported for #{self}"
+        end
       end
 
       # Get pairs of :hash node.

@@ -536,6 +536,14 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#elements' do
+    it 'gets for array node' do
+      code = "[foo, bar]"
+      node = parse(code)
+      expect(node.elements).to eq [parse('foo'), parse('bar')]
+    end
+  end
+
   describe '#to_value' do
     it 'gets for int' do
       node = parse('1')
