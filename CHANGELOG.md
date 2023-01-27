@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.7.0 (2023-01-28)
+
+* Support `elements` for `array` node
+* Support `forward_args`
+
 ## 0.6.1 (2023-01-21)
 
 * Fix typo
