@@ -140,9 +140,19 @@ RSpec.describe ParserNodeExt do
       expect(node.arguments.map(&:type)).to eq [:arg, :arg]
     end
 
+    it 'gets forward_args for def node' do
+      node = parse('def test(...); end')
+      expect(node.arguments.map(&:type)).to eq [:forward_args]
+    end
+
     it 'gets for defs node' do
       node = parse('def self.test(foo, bar); foo + bar; end')
       expect(node.arguments.map(&:type)).to eq [:arg, :arg]
+    end
+
+    it 'gets forward_args for defs node' do
+      node = parse('def self.test(...); end')
+      expect(node.arguments.map(&:type)).to eq [:forward_args]
     end
 
     it 'gets for block node' do

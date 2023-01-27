@@ -119,9 +119,11 @@ module ParserNodeExt
       def arguments
         case type
         when :def, :block
-          children[1].children
+          children[1].type == :args ? children[1].children : [children[1]]
         when :defs
-          children[2].children
+          children[2].type == :args ? children[2].children : [children[2]]
+        when :block
+          children[1].children
         when :send, :csend
           children[2..-1]
         when :defined?
