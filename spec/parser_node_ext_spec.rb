@@ -176,10 +176,22 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#arguments_count' do
+    it 'gets for numblock node' do
+      node = parse('(1..10).each { p _1 * 2 }')
+      expect(node.arguments_count).to eq 1
+    end
+  end
+
   describe '#caller' do
     it 'gets for block node' do
       node = parse('RSpec.configure do |config|; end')
       expect(node.caller).to eq parse('RSpec.configure')
+    end
+
+    it 'gets for numblock node' do
+      node = parse('(1..10).each { p _1 * 2 }')
+      expect(node.caller).to eq parse('(1..10).each')
     end
   end
 
@@ -251,6 +263,11 @@ RSpec.describe ParserNodeExt do
       CODE
       node = parse(code)
       expect(node.when_statements[0].body).to eq [parse("'foo'")]
+    end
+
+    it 'gets for numblock node' do
+      node = parse('(1..10).each { p _1 * 2 }')
+      expect(node.body).to eq [node.children[2]]
     end
   end
 

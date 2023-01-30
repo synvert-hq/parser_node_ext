@@ -3,6 +3,7 @@ module ParserNodeExt
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
 
   def arguments: () -> Array[Parser::AST::Node]
+  def arguments_count: () -> Integer
   def body: () -> Array[Parser::AST::Node]
   def caller: () -> Parser::AST::Node
   def elements: () -> Array[Parser::AST::Node]
