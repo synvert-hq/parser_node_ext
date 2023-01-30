@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.8.0 (2023-01-30)
+
+* Support `numblock` node
+
 ## 0.7.0 (2023-01-28)
 
 * Support `elements` for `array` node
