@@ -26,6 +26,36 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#variable' do
+    it 'gets for pin node' do
+      code = <<~CODE
+        expectation = 18
+        case [1, 2]
+        in ^expectation, *rest
+          "matched. expectation was: \#{expectation}"
+        else
+          "not matched. expectation was: \#{expectation}"
+        end
+      CODE
+      node = parse(code).body[1].in_statements[0].expression.elements[0]
+      expect(node.variable.name).to eq :expectation
+    end
+
+    it 'gets for match_rest node' do
+      code = <<~CODE
+        expectation = 18
+        case [1, 2]
+        in ^expectation, *rest
+          "matched. expectation was: \#{expectation}"
+        else
+          "not matched. expectation was: \#{expectation}"
+        end
+      CODE
+      node = parse(code).body[1].in_statements[0].expression.elements[1]
+      expect(node.variable.name).to eq :rest
+    end
+  end
+
   describe '#name' do
     it 'gets for class node' do
       node = parse('class Synvert; end')
