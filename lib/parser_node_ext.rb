@@ -38,6 +38,7 @@ module ParserNodeExt
     lvar: %i[name],
     lvasgn: %i[left_value right_value],
     masgn: %i[left_value right_value],
+    match_pattern_p: %i[left_value right_value],
     module: %i[name body],
     nil: [],
     numblock: %i[caller arguments_count body],
