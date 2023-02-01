@@ -480,6 +480,21 @@ RSpec.describe ParserNodeExt do
       expect(node.expression).to eq parse('expression')
     end
 
+    it 'gets for case_match node' do
+      code = <<~CODE
+        case name_hash
+        in {username: username}
+          username
+        in {first: first, last: last}
+          "\#{first} \#{last}"
+        else
+          'New User'
+        end
+      CODE
+      node = parse(code)
+      expect(node.expression).to eq parse('name_hash')
+    end
+
     it 'gets for when node' do
       code = <<~CODE
         case expression
@@ -567,6 +582,21 @@ RSpec.describe ParserNodeExt do
       CODE
       node = parse(code)
       expect(node.else_statement).to be_nil
+    end
+
+    it 'gets for case_match node' do
+      code = <<~CODE
+        case name_hash
+        in {username: username}
+          username
+        in {first: first, last: last}
+          "\#{first} \#{last}"
+        else
+          'New User'
+        end
+      CODE
+      node = parse(code)
+      expect(node.else_statement).to eq parse("'New User'")
     end
   end
 

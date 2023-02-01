@@ -15,6 +15,7 @@ module ParserNodeExt
     block: %i[caller arguments body],
     blockarg: %i[name],
     case: %i[expression when_statements else_statement],
+    case_match: %i[expression in_statements else_statement],
     const: %i[parent_const name],
     class: %i[name parent_class body],
     csend: %i[receiver message arguments],
