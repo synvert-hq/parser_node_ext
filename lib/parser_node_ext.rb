@@ -27,6 +27,7 @@ module ParserNodeExt
     false: [],
     float: %i[value],
     hash: %i[pairs],
+    hash_pattern: %i[pairs],
     if: %i[expression if_statement else_statement],
     int: %i[value],
     ivasgn: %i[left_value right_value],
@@ -203,14 +204,14 @@ module ParserNodeExt
         end
       end
 
-      # Get pairs of :hash node.
+      # Get pairs of :hash and :hash_pattern node.
       # @example
       #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)), s(:pair, s(:str, "foo"), s(:str, "bar")))
       #   node.pairs # [s(:pair, s(:sym, :foo), s(:sym, :bar)), s(:pair, s(:str, "foo"), s(:str, "bar"))]
       # @return [Array<Parser::AST::Node>] pairs of node.
       # @raise [MethodNotSupported] if calls on other node.
       def pairs
-        if :hash == type
+        if %i[hash hash_pattern].include?(type)
           children
         else
           raise MethodNotSupported, "pairs is not supported for #{self}"

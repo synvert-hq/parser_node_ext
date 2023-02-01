@@ -272,9 +272,14 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#pairs' do
-    it 'get for hash node' do
+    it 'gets for hash node' do
       node = parse("{:foo => :bar, 'foo' => 'bar'}")
       expect(node.pairs).to eq [node.children[0], node.children[1]]
+    end
+
+    it 'gets for hash_pattern node' do
+      node = parse('http_response in { ok?: true, body?: true, text?: true }').right_value
+      expect(node.pairs).to eq [node.children[0], node.children[1], node.children[2]]
     end
   end
 
