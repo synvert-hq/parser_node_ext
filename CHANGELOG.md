@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.10.0 (2023-02-01)
+
+* Support `erange` and `irange` nodes
+
 ## 0.9.1 (2023-02-01)
 
 * Fix `module` node `body` method
