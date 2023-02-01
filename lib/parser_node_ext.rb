@@ -31,6 +31,7 @@ module ParserNodeExt
     hash: %i[pairs],
     hash_pattern: %i[pairs],
     if: %i[expression if_statement else_statement],
+    if_guard: %i[expression],
     int: %i[value],
     in_pattern: %i[expression guard body],
     ivasgn: %i[left_value right_value],
@@ -51,6 +52,7 @@ module ParserNodeExt
     super: %i[arguments],
     sym: %i[value],
     true: [],
+    unless_guard: %i[expression],
     when: %i[expression body],
     zsuper: []
   }
