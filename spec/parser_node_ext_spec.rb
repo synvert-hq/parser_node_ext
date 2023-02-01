@@ -429,6 +429,11 @@ RSpec.describe ParserNodeExt do
       node = parse('foo || bar')
       expect(node.left_value).to eq parse('foo')
     end
+
+    it 'gets for match_pattern_p' do
+      node = parse('http_response in { ok?: true, body?: true, text?: true }')
+      expect(node.left_value).to eq parse('http_response')
+    end
   end
 
   describe '#right_value' do
@@ -470,6 +475,11 @@ RSpec.describe ParserNodeExt do
     it 'gets for or' do
       node = parse('foo || bar')
       expect(node.right_value).to eq parse('bar')
+    end
+
+    it 'gets for match_pattern_p' do
+      node = parse('http_response in { ok?: true, body?: true, text?: true }')
+      expect(node.right_value).to eq node.children[1]
     end
   end
 
