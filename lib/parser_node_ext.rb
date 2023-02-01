@@ -11,6 +11,8 @@ module ParserNodeExt
   TYPE_CHILDREN = {
     and: %i[left_value right_value],
     arg: %i[name],
+    array: %i[elements],
+    array_pattern: %i[elements],
     begin: %i[body],
     block: %i[caller arguments body],
     blockarg: %i[name],
@@ -193,11 +195,11 @@ module ParserNodeExt
         children[-1]
       end
 
-      # Get elements of array node.
+      # Get elements of :array and :array_pattern node.
       # @return [Array<Parser::AST::Node>] elements of array node.
       # @raise [MethodNotSupported] if calls on other node.
       def elements
-        if :array == type
+        if %i[array array_pattern].include?(type)
           children
         else
           raise MethodNotSupported, "elements is not supported for #{self}"

@@ -611,6 +611,11 @@ RSpec.describe ParserNodeExt do
       node = parse(code)
       expect(node.elements).to eq [parse('foo'), parse('bar')]
     end
+
+    it 'gets for array_pattern node' do
+      node = parse("user in ['foo', 'bar']").right_value
+      expect(node.elements).to eq [parse("'foo'"), parse("'bar'")]
+    end
   end
 
   describe '#to_value' do
