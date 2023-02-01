@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.9.0 (2023-02-01)
+
+* Support pattern match nodes, `case_match`, `in_pattern`, `hash_pattern`, `array_pattern`, `find_pattern`, `match_pattern`, `match_pattern_p`, `match_var`, `match_as`, `pin`, `match_rest`, `if_guard` and `unless_guard`
+
 ## 0.8.0 (2023-01-30)
 
 * Support `numblock` node
