@@ -32,6 +32,7 @@ module ParserNodeExt
     hash_pattern: %i[pairs],
     if: %i[expression if_statement else_statement],
     int: %i[value],
+    in_pattern: %i[expression guard body],
     ivasgn: %i[left_value right_value],
     ivar: %i[name],
     lvar: %i[name],
@@ -153,7 +154,7 @@ module ParserNodeExt
           return [] if children[1].nil?
 
           :begin == children[1].type ? children[1].body : children[1..-1]
-        when :def, :block, :class, :module, :numblock
+        when :def, :block, :class, :module, :numblock, :in_pattern
           return [] if children[2].nil?
 
           :begin == children[2].type ? children[2].body : children[2..-1]

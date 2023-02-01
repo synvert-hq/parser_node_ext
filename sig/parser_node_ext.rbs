@@ -12,6 +12,7 @@ module ParserNodeExt
   def if_statement: () -> Parser::AST::Node
   def in_statements: () -> Array[Parser::AST::Node]
   def key: () -> Parser::AST::Node
+  def guard: () -> Parser::AST::Node
   def left_value: () -> Parser::AST::Node | Symbol
   def message: () -> Symbol
   def name: () -> Parser::AST::Node | Symbol

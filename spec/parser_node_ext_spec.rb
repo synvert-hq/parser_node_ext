@@ -265,6 +265,21 @@ RSpec.describe ParserNodeExt do
       expect(node.when_statements[0].body).to eq [parse("'foo'")]
     end
 
+    it 'gets for in_pattern node' do
+      code = <<~CODE
+        case name_hash
+        in {username: username}
+          username
+        in {first: first, last: last}
+          "\#{first} \#{last}"
+        else
+          'New User'
+        end
+      CODE
+      node = parse(code).in_statements[0]
+      expect(node.body).to eq [node.children[2]]
+    end
+
     it 'gets for numblock node' do
       node = parse('(1..10).each { p _1 * 2 }')
       expect(node.body).to eq [node.children[2]]
@@ -512,6 +527,37 @@ RSpec.describe ParserNodeExt do
       CODE
       node = parse(code)
       expect(node.when_statements[0].expression).to eq parse('foo')
+    end
+
+    it 'gets for in_pattern node' do
+      code = <<~CODE
+        case name_hash
+        in {username: username}
+          username
+        in {first: first, last: last}
+          "\#{first} \#{last}"
+        else
+          'New User'
+        end
+      CODE
+      node = parse(code).in_statements[0]
+      expect(node.expression).to eq node.children[0]
+    end
+  end
+
+  describe '#guard' do
+    it 'gets for in_pattern node' do
+      code = <<~CODE
+        case [1, 2]
+        in a, b if b == a*2
+          "matched"
+        else
+          "not matched"
+        end
+      CODE
+      node = parse(code).in_statements[0]
+      expect(node.guard).to eq node.children[1]
+      expect(node.guard.type).to eq :if_guard
     end
   end
 
