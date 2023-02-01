@@ -56,6 +56,30 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#begin' do
+    it 'gets for irange' do
+      node = parse('1..2')
+      expect(node.begin).to eq parse('1')
+    end
+
+    it 'gets for erange' do
+      node = parse('1...2')
+      expect(node.begin).to eq parse('1')
+    end
+  end
+
+  describe '#end' do
+    it 'gets for irange' do
+      node = parse('1..2')
+      expect(node.end).to eq parse('2')
+    end
+
+    it 'gets for erange' do
+      node = parse('1...2')
+      expect(node.end).to eq parse('2')
+    end
+  end
+
   describe '#name' do
     it 'gets for class node' do
       node = parse('class Synvert; end')

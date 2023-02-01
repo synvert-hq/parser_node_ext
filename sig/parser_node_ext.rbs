@@ -4,10 +4,12 @@ module ParserNodeExt
 
   def arguments: () -> Array[Parser::AST::Node]
   def arguments_count: () -> Integer
+  def begin: () -> Parser::AST::Node
   def body: () -> Array[Parser::AST::Node]
   def caller: () -> Parser::AST::Node
   def elements: () -> Array[Parser::AST::Node]
   def else_statement: () -> Parser::AST::Node
+  def end: () -> Parser::AST::Node
   def expression: () -> Parser::AST::Node
   def if_statement: () -> Parser::AST::Node
   def in_statements: () -> Array[Parser::AST::Node]
