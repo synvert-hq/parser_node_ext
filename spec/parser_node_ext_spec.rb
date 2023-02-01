@@ -770,6 +770,19 @@ RSpec.describe ParserNodeExt do
       node = parse("user in ['foo', 'bar']").right_value
       expect(node.elements).to eq [parse("'foo'"), parse("'bar'")]
     end
+
+    it 'gets for find_pattern node' do
+      code = <<~CODE
+        case ["a", 1, "b", "c", 2]
+        in [*, String, String, *]
+          "matched"
+        else
+          "not matched"
+        end
+      CODE
+      node = parse(code).in_statements[0].expression
+      expect(node.elements).to eq node.children
+    end
   end
 
   describe '#to_value' do

@@ -27,6 +27,7 @@ module ParserNodeExt
     defined?: %i[arguments],
     defs: %i[self name arguments body],
     false: [],
+    find_pattern: %i[elements],
     float: %i[value],
     hash: %i[pairs],
     hash_pattern: %i[pairs],
@@ -207,7 +208,7 @@ module ParserNodeExt
       # @return [Array<Parser::AST::Node>] elements of array node.
       # @raise [MethodNotSupported] if calls on other node.
       def elements
-        if %i[array array_pattern].include?(type)
+        if %i[array array_pattern find_pattern].include?(type)
           children
         else
           raise MethodNotSupported, "elements is not supported for #{self}"
