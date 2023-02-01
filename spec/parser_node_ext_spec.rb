@@ -525,6 +525,23 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#in_statements' do
+    it 'gets for case_match node' do
+      code = <<~CODE
+        case name_hash
+        in {username: username}
+          username
+        in {first: first, last: last}
+          "\#{first} \#{last}"
+        else
+          'New User'
+        end
+      CODE
+      node = parse(code)
+      expect(node.in_statements).to eq node.children[1..2]
+    end
+  end
+
   describe '#else_statment' do
     it 'gets for if node' do
       code = <<~CODE

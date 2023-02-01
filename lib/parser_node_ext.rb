@@ -173,6 +173,17 @@ module ParserNodeExt
         end
       end
 
+      # Get in statements of case_match node.
+      # @return [Array<Parser::AST::Node>] in statements of case node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def in_statements
+        if :case_match == type
+          children[1...-1]
+        else
+          raise MethodNotSupported, "in_statements is not supported for #{self}"
+        end
+      end
+
       # Get else statement of case node.
       # @return [Parser::AST::Node] else statement of case node.
       # @raise [MethodNotSupported] if calls on other node.
