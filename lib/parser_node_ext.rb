@@ -159,11 +159,11 @@ module ParserNodeExt
         case type
         when :begin
           children
-        when :when
+        when :when, :module
           return [] if children[1].nil?
 
           :begin == children[1].type ? children[1].body : children[1..-1]
-        when :def, :block, :class, :module, :numblock, :in_pattern
+        when :def, :block, :class, :numblock, :in_pattern
           return [] if children[2].nil?
 
           :begin == children[2].type ? children[2].body : children[2..-1]

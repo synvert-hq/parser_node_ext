@@ -251,14 +251,14 @@ RSpec.describe ParserNodeExt do
       expect(node.body).to eq [parse('include EmailSpec::Helpers'), parse('include EmailSpec::Matchers')]
     end
 
-    it 'gets empty for class node' do
-      node = parse('class User; end')
-      expect(node.body).to be_empty
+    it 'gets for class node' do
+      node = parse('class User; def admin?; false; end; end')
+      expect(node.body).to eq [parse('def admin?; false; end')]
     end
 
-    it 'gets empty for module node' do
-      node = parse('module Admin; end')
-      expect(node.body).to be_empty
+    it 'gets for module node' do
+      node = parse('module Admin; def admin?; true; end; end')
+      expect(node.body).to eq [parse('def admin?; true; end')]
     end
 
     it 'gets one line for class node' do
