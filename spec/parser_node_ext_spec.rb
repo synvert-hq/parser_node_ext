@@ -84,6 +84,21 @@ RSpec.describe ParserNodeExt do
       node = parse('object.each { |*entry| }')
       expect(node.arguments.first.name).to eq :entry
     end
+
+    it 'gets for match_var node' do
+      code = <<~CODE
+        case name_hash
+        in {username: username}
+          username
+        in {first: first, last: last}
+          "\#{first} \#{last}"
+        else
+          'New User'
+        end
+      CODE
+      node = parse(code).in_statements[0].expression.pairs[0].value
+      expect(node.name).to eq :username
+    end
   end
 
   describe '#parent_class' do
