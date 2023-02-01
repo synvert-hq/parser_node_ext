@@ -553,6 +553,32 @@ RSpec.describe ParserNodeExt do
       node = parse(code).in_statements[0]
       expect(node.expression).to eq node.children[0]
     end
+
+    it 'gets for if_guard node' do
+      code = <<~CODE
+        case [1, 2]
+        in a, b if b == a*2
+          "matched"
+        else
+          "not matched"
+        end
+      CODE
+      node = parse(code).in_statements[0].guard
+      expect(node.expression).to eq node.children[0]
+    end
+
+    it 'gets for unless_guard node' do
+      code = <<~CODE
+        case [1, 2]
+        in a, b unless b != a*2
+          "matched"
+        else
+          "not matched"
+        end
+      CODE
+      node = parse(code).in_statements[0].guard
+      expect(node.expression).to eq node.children[0]
+    end
   end
 
   describe '#guard' do
