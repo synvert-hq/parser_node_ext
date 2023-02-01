@@ -362,12 +362,39 @@ RSpec.describe ParserNodeExt do
       node = parse("{:foo => 'bar'}").children[0]
       expect(node.key).to eq parse(':foo')
     end
+
+    it 'gets for match_as node' do
+      code = <<~CODE
+        case [1, 2]
+        in Integer => a, Integer
+          "matched: \#{a}"
+        else
+          "not matched"
+        end
+      CODE
+      node = parse(code).in_statements[0].expression.elements[0]
+      expect(node.key).to eq parse('Integer')
+    end
   end
 
   describe '#value' do
     it 'gets for hash node' do
       node = parse("{:foo => 'bar'}").children[0]
       expect(node.value).to eq parse("'bar'")
+    end
+
+    it 'gets for match_as node' do
+      code = <<~CODE
+        case [1, 2]
+        in Integer => a, Integer
+          "matched: \#{a}"
+        else
+          "not matched"
+        end
+      CODE
+      node = parse(code).in_statements[0].expression.elements[0]
+      expect(node.value).to eq node.children[1]
+      expect(node.value.type).to eq :match_var
     end
 
     it 'gets for str node' do
