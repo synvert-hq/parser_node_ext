@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.11.0 (2023-02-12)
+
+* Support `self` node
+
 ## 0.10.0 (2023-02-01)
 
 * Support `erange` and `irange` nodes
