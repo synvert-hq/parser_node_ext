@@ -55,6 +55,7 @@ module ParserNodeExt
     pair: %i[key value],
     pin: %i[variable],
     restarg: %i[name],
+    self: [],
     send: %i[receiver message arguments],
     str: %i[value],
     super: %i[arguments],
