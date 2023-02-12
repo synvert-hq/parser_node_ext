@@ -68,6 +68,7 @@ module ParserNodeExt
     match_var: %i[name],
     mlhs: %i[elements],
     module: %i[name body],
+    next: %i[expression],
     nil: [],
     nth_ref: %i[name],
     numblock: %i[caller arguments_count body],
