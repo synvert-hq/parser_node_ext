@@ -37,6 +37,7 @@ module ParserNodeExt
     find_pattern: %i[elements],
     float: %i[value],
     gvar: %i[name],
+    gvasgn: %i[left_value right_value],
     hash: %i[pairs],
     hash_pattern: %i[pairs],
     if: %i[expression if_statement else_statement],
