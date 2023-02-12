@@ -54,6 +54,7 @@ module ParserNodeExt
     ivasgn: %i[variable value],
     ivar: %i[name],
     kwarg: %i[name],
+    kwbody: %i[body],
     kwnilarg: [],
     kwoptarg: %i[name value],
     kwrestarg: %i[name],
@@ -82,6 +83,8 @@ module ParserNodeExt
     redo: [],
     regexp: %i[elements options],
     regopt: %i[elements],
+    resbody: %i[exceptions variable body],
+    rescue: %i[body rescue_bodies else_statement],
     restarg: %i[name],
     return: %i[expression],
     sclass: %i[name body],
@@ -175,7 +178,7 @@ module ParserNodeExt
       end
 
       # Get body of node.
-      # It supports :begin, :block, :class, :def, :defs, :for, :module, :numblock, :sclass, :until, :until_post, :while and :while_post node.
+      # It supports :begin, :block, :class, :def, :defs, :for, :module, :numblock, resbody, :sclass, :until, :until_post, :while and :while_post node.
       # @example
       #   node # s(:block, s(:send, s(:const, nil, :RSpec), :configure), s(:args, s(:arg, :config)), s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers)))
       #   node.body # [s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers))]
@@ -185,11 +188,15 @@ module ParserNodeExt
         case type
         when :begin, :kwbegin
           children
+        when :rescue
+          return [] if children[0].nil?
+
+          [:begin, :kwbegin].include?(children[0].type) ? children[0].body : [children[0]]
         when :when, :module, :sclass, :until, :until_post, :while, :while_post
           return [] if children[1].nil?
 
           [:begin, :kwbegin].include?(children[1].type) ? children[1].body : children[1..-1]
-        when :def, :block, :class, :for, :in_pattern, :numblock
+        when :def, :block, :class, :for, :in_pattern, :numblock, :resbody
           return [] if children[2].nil?
 
           [:begin, :kwbegin].include?(children[2].type) ? children[2].body : children[2..-1]
@@ -213,6 +220,17 @@ module ParserNodeExt
         end
       end
 
+      # Get rescue bodies of resuce node.
+      # @return [Array<Parser::AST::Node>] rescue statements of rescue node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def rescue_bodies
+        if :rescue == type
+          children[1...-1]
+        else
+          raise MethodNotSupported, "rescue_bodies is not supported for #{self}"
+        end
+      end
+
       # Get in statements of case_match node.
       # @return [Array<Parser::AST::Node>] in statements of case node.
       # @raise [MethodNotSupported] if calls on other node.
@@ -224,8 +242,8 @@ module ParserNodeExt
         end
       end
 
-      # Get else statement of case node.
-      # @return [Parser::AST::Node] else statement of case node.
+      # Get else statement of node.
+      # @return [Parser::AST::Node] else statement of node.
       # @raise [MethodNotSupported] if calls on other node.
       def else_statement
         children[-1]
@@ -255,6 +273,20 @@ module ParserNodeExt
           children[-1]
         else
           raise MethodNotSupported, "options is not supported for #{self}"
+        end
+      end
+
+      # Get exceptions of :resbody node.
+      # @example
+      #   node # s(:resbody, s(:array, (:const nil :Exception), (:const nil :A)), s(:lvasgn :bar), s(:int 1))
+      #   node.exceptions # s(:array, (:const nil :Exception), (:const nil :A))
+      # @return [Parser::AST::Node] exceptions of resbody node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def exceptions
+        if :resbody == type
+          children[0]
+        else
+          raise MethodNotSupported, "exceptions is not supported for #{self}"
         end
       end
 

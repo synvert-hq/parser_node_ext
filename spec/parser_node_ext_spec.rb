@@ -72,6 +72,18 @@ RSpec.describe ParserNodeExt do
       expect(node.variable).to eq node.children[0]
     end
 
+    it 'gets for resbody node' do
+      code = <<~CODE
+        begin
+          foobar
+        rescue Exception, A => bar
+          1
+        end
+      CODE
+      node = parse(code).children.first.rescue_bodies.first
+      expect(node.variable).to eq node.children[1]
+    end
+
     it 'gets for pin node' do
       code = <<~CODE
         expectation = 18
@@ -498,6 +510,34 @@ RSpec.describe ParserNodeExt do
       expect(node.when_statements[0].body).to eq [parse("'foo'")]
     end
 
+    it 'gets for rescue node' do
+      code = <<~CODE
+        begin
+          foobar
+        rescue Timeout::Error
+          'timeout'
+        resuce StandardError => e
+          e.message
+        else
+          'else'
+        end
+      CODE
+      node = parse(code).children.first
+      expect(node.body).to eq [parse('foobar')]
+    end
+
+    it 'gets for resbody node' do
+      code = <<~CODE
+        begin
+          foobar
+        rescue Exception, A => bar
+          1
+        end
+      CODE
+      node = parse(code).children.first.rescue_bodies.first
+      expect(node.body).to eq [parse('1')]
+    end
+
     it 'gets for in_pattern node' do
       code = <<~CODE
         case name_hash
@@ -516,6 +556,24 @@ RSpec.describe ParserNodeExt do
     it 'gets for numblock node' do
       node = parse('(1..10).each { p _1 * 2 }')
       expect(node.body).to eq [node.children[2]]
+    end
+  end
+
+  describe '#rescue_bodies' do
+    it 'gets for rescue node' do
+      code = <<~CODE
+        begin
+          foobar
+        rescue Timeout::Error
+          'timeout'
+        rescue StandardError => e
+          e.message
+        else
+          'else'
+        end
+      CODE
+      node = parse(code).children.first
+      expect(node.rescue_bodies.size).to eq 2
     end
   end
 
@@ -992,6 +1050,22 @@ RSpec.describe ParserNodeExt do
       expect(node.else_statement).to eq parse('false')
     end
 
+    it 'gets for rescue node' do
+      code = <<~CODE
+        begin
+          foobar
+        rescue Timeout::Error
+          'timeout'
+        resuce StandardError => e
+          e.message
+        else
+          'else'
+        end
+      CODE
+      node = parse(code).children.first
+      expect(node.else_statement).to eq parse("'else'")
+    end
+
     it 'gets for case node' do
       code = <<~CODE
         case expression
@@ -1087,6 +1161,20 @@ RSpec.describe ParserNodeExt do
     it 'gets for regexp do' do
       node = parse('/foo#{bar}baz/im')
       expect(node.options).to eq node.children[-1]
+    end
+  end
+
+  describe '#exceptions' do
+    it 'gets for resbody node' do
+      code = <<~CODE
+        begin
+          foobar
+        rescue Exception, A => bar
+          1
+        end
+      CODE
+      node = parse(code).children.first.rescue_bodies.first
+      expect(node.exceptions).to eq parse('[Exception, A]')
     end
   end
 

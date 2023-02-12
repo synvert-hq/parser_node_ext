@@ -9,6 +9,7 @@ module ParserNodeExt
   def caller: () -> Parser::AST::Node
   def elements: () -> Array[Parser::AST::Node]
   def else_statement: () -> Parser::AST::Node
+  def exceptions: () -> Array[Parser::AST::Node]
   def end: () -> Parser::AST::Node
   def expression: () -> Parser::AST::Node
   def old_name: () -> Symbol
