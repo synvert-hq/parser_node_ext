@@ -114,26 +114,46 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#begin' do
-    it 'gets for irange' do
+    it 'gets for irange node' do
       node = parse('1..2')
       expect(node.begin).to eq parse('1')
     end
 
-    it 'gets for erange' do
+    it 'gets for erange node' do
       node = parse('1...2')
       expect(node.begin).to eq parse('1')
+    end
+
+    it 'gets for iflipflop node' do
+      node = parse('if a..b; end').expression
+      expect(node.begin).to eq parse('a')
+    end
+
+    it 'gets for eflipflop node' do
+      node = parse('if a...b; end').expression
+      expect(node.begin).to eq parse('a')
     end
   end
 
   describe '#end' do
-    it 'gets for irange' do
+    it 'gets for irange node' do
       node = parse('1..2')
       expect(node.end).to eq parse('2')
     end
 
-    it 'gets for erange' do
+    it 'gets for erange node' do
       node = parse('1...2')
       expect(node.end).to eq parse('2')
+    end
+
+    it 'gets for iflipflop node' do
+      node = parse('if a..b; end').expression
+      expect(node.end).to eq parse('b')
+    end
+
+    it 'gets for eflipflop node' do
+      node = parse('if a...b; end').expression
+      expect(node.end).to eq parse('b')
     end
   end
 
