@@ -46,6 +46,7 @@ module ParserNodeExt
     kwarg: %i[name],
     kwoptarg: %i[name value],
     kwrestarg: %i[name],
+    kwsplat: %i[name],
     lvar: %i[name],
     lvasgn: %i[left_value right_value],
     masgn: %i[left_value right_value],

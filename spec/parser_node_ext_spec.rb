@@ -139,6 +139,11 @@ RSpec.describe ParserNodeExt do
       expect(node.name).to eq :foo
     end
 
+    it 'gets for kwsplat node' do
+      node = parse("foo(1 => 2, **bar, baz: 3)").arguments.first.pairs[1]
+      expect(node.name).to eq parse('bar')
+    end
+
     it 'gets for const node' do
       node = parse('Synvert')
       expect(node.name).to eq :Synvert
