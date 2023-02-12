@@ -20,6 +20,7 @@ module ParserNodeExt
     block_pass: %i[name],
     case: %i[expression when_statements else_statement],
     case_match: %i[expression in_statements else_statement],
+    casgn: %i[parent_const name value],
     cbase: %i[],
     complex: %i[value],
     const: %i[parent_const name],

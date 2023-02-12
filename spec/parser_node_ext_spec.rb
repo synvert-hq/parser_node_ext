@@ -169,6 +169,11 @@ RSpec.describe ParserNodeExt do
       expect(node.name).to eq :$foo
     end
 
+    it 'gets for casgn node' do
+      node = parse('::Foo = 1')
+      expect(node.name).to eq :Foo
+    end
+
     it 'gets for restarg node' do
       node = parse('object.each { |*entry| }').arguments.first
       expect(node.name).to eq :entry
@@ -250,6 +255,11 @@ RSpec.describe ParserNodeExt do
     it 'gets for const node with no parent' do
       node = parse('Node')
       expect(node.parent_const).to eq nil
+    end
+
+    it 'gets for casgn node' do
+      node = parse('::Foo = 1')
+      expect(node.parent_const.type).to eq :cbase
     end
   end
 
@@ -509,6 +519,11 @@ RSpec.describe ParserNodeExt do
     it 'gets for kwoptarg node' do
       node = parse("def test(foo: 'foo', bar: 'bar'); end").arguments.first
       expect(node.value).to eq parse("'foo'")
+    end
+
+    it 'gets for casgn node' do
+      node = parse('::Foo = 1')
+      expect(node.value).to eq parse('1')
     end
   end
 
