@@ -952,22 +952,22 @@ RSpec.describe ParserNodeExt do
       expect(node.elements).to eq node.children
     end
 
-    it 'gets for dstr' do
+    it 'gets for dstr node' do
       node = parse('"foo#{bar}baz"')
       expect(node.elements).to eq node.children
     end
 
-    it 'gets for dsym' do
+    it 'gets for dsym node' do
       node = parse(':"foo#{bar}baz"')
       expect(node.elements).to eq node.children
     end
 
-    it 'gets for xstr' do
+    it 'gets for xstr node' do
       node = parse('`foo#{bar}baz`')
       expect(node.elements).to eq node.children
     end
 
-    it 'gets for regexp' do
+    it 'gets for regexp do' do
       node = parse('/foo#{bar}baz/im')
       expect(node.elements).to eq node.children[0...-1]
     end
@@ -977,14 +977,19 @@ RSpec.describe ParserNodeExt do
       expect(node.elements).to eq [:i, :m]
     end
 
-    it 'gets for masgn' do
+    it 'gets for masgn node' do
       node = parse('a, b = 1, 2').left_value
+      expect(node.elements).to eq node.children
+    end
+
+    it 'gets for undef node' do
+      node = parse('undef foo, bar')
       expect(node.elements).to eq node.children
     end
   end
 
   describe '#options' do
-    it 'gets for regexp' do
+    it 'gets for regexp do' do
       node = parse('/foo#{bar}baz/im')
       expect(node.options).to eq node.children[-1]
     end
