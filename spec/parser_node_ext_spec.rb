@@ -110,13 +110,33 @@ RSpec.describe ParserNodeExt do
     end
 
     it 'gets for arg node' do
-      node = parse('def test(foo); end')
-      expect(node.arguments.first.name).to eq :foo
+      node = parse('def test(foo); end').arguments.first
+      expect(node.name).to eq :foo
     end
 
     it 'gets for blockarg node' do
-      node = parse('def test(&block); end')
-      expect(node.arguments.first.name).to eq :block
+      node = parse('def test(&block); end').arguments.first
+      expect(node.name).to eq :block
+    end
+
+    it 'gets for optarg node' do
+      node = parse("def test(foo = 'foo'); end").arguments.first
+      expect(node.name).to eq :foo
+    end
+
+    it 'gets for kwarg node' do
+      node = parse("def test(foo:, bar:); end").arguments.first
+      expect(node.name).to eq :foo
+    end
+
+    it 'gets for kwoptarg node' do
+      node = parse("def test(foo: 'foo', bar: 'bar'); end").arguments.first
+      expect(node.name).to eq :foo
+    end
+
+    it 'gets for kwrestarg node' do
+      node = parse("def test(**foo); end").arguments.first
+      expect(node.name).to eq :foo
     end
 
     it 'gets for const node' do
@@ -140,8 +160,8 @@ RSpec.describe ParserNodeExt do
     end
 
     it 'gets for restarg node' do
-      node = parse('object.each { |*entry| }')
-      expect(node.arguments.first.name).to eq :entry
+      node = parse('object.each { |*entry| }').arguments.first
+      expect(node.name).to eq :entry
     end
 
     it 'gets for match_var node' do
@@ -454,6 +474,16 @@ RSpec.describe ParserNodeExt do
     it 'gets for float node' do
       node = parse('1.1')
       expect(node.value).to eq 1.1
+    end
+
+    it 'gets for optarg node' do
+      node = parse("def test(foo = 'foo'); end").arguments.first
+      expect(node.value).to eq parse("'foo'")
+    end
+
+    it 'gets for kwoptarg node' do
+      node = parse("def test(foo: 'foo', bar: 'bar'); end").arguments.first
+      expect(node.value).to eq parse("'foo'")
     end
   end
 
