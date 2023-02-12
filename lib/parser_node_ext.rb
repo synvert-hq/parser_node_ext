@@ -79,6 +79,7 @@ module ParserNodeExt
     pair: %i[key value],
     pin: %i[variable],
     rational: %i[value],
+    redo: [],
     regexp: %i[elements options],
     regopt: %i[elements],
     restarg: %i[name],
