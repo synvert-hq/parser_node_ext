@@ -83,6 +83,7 @@ module ParserNodeExt
     regexp: %i[elements options],
     regopt: %i[elements],
     restarg: %i[name],
+    return: %i[expression],
     sclass: %i[name body],
     self: [],
     shadowarg: %i[name],

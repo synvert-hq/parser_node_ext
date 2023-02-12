@@ -908,6 +908,11 @@ RSpec.describe ParserNodeExt do
       node = parse('next 1')
       expect(node.expression).to eq parse('1')
     end
+
+    it 'gets for return node' do
+      node = parse('return 1')
+      expect(node.expression).to eq parse('1')
+    end
   end
 
   describe '#guard' do
