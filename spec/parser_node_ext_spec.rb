@@ -407,6 +407,16 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#value' do
+    it 'gets for complex node' do
+      node = parse('1i')
+      expect(node.value).to eq (0+1i)
+    end
+
+    it 'gets for rational node' do
+      node = parse('2.0r')
+      expect(node.value).to eq (2/1)
+    end
+
     it 'gets for hash node' do
       node = parse("{:foo => 'bar'}").children[0]
       expect(node.value).to eq parse("'bar'")
