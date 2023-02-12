@@ -70,6 +70,7 @@ module ParserNodeExt
     match_pattern_p: %i[left_value right_value],
     match_rest: %i[variable],
     match_var: %i[name],
+    match_with_lvasgn: %i[left_value right_value],
     mlhs: %i[elements],
     module: %i[name body],
     next: %i[expression],

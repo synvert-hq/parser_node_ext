@@ -859,6 +859,11 @@ RSpec.describe ParserNodeExt do
       node = parse('config => {db: {user:}}')
       expect(node.left_value).to eq parse('config')
     end
+
+    it 'gets for match_with_lvasgn node' do
+      node = parse('/(?<match>bar)/ =~ baz')
+      expect(node.left_value).to eq node.children[0]
+    end
   end
 
   describe '#right_value' do
@@ -882,6 +887,11 @@ RSpec.describe ParserNodeExt do
       node = parse('config => {db: {user:}}')
       expect(node.right_value).to eq node.children[1]
       expect(node.right_value.type).to eq :hash_pattern
+    end
+
+    it 'gets for match_with_lvasgn node' do
+      node = parse('/(?<match>bar)/ =~ baz')
+      expect(node.right_value).to eq node.children[1]
     end
   end
 
