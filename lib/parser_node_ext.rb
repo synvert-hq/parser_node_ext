@@ -90,7 +90,9 @@ module ParserNodeExt
     true: [],
     undef: %i[elements],
     unless_guard: %i[expression],
+    until: %i[expression body],
     when: %i[expression body],
+    while: %i[expression body],
     xstr: %i[elements],
     yield: %i[arguments],
     zsuper: []
@@ -166,7 +168,7 @@ module ParserNodeExt
       end
 
       # Get body of node.
-      # It supports :begin, :block, :class, :def, :defs, :module, :numblock and :sclass node.
+      # It supports :begin, :block, :class, :def, :defs, :module, :numblock, :sclass, :until, and :while node.
       # @example
       #   node # s(:block, s(:send, s(:const, nil, :RSpec), :configure), s(:args, s(:arg, :config)), s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers)))
       #   node.body # [s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers))]
@@ -176,7 +178,7 @@ module ParserNodeExt
         case type
         when :begin
           children
-        when :when, :module, :sclass
+        when :when, :module, :sclass, :until, :while
           return [] if children[1].nil?
 
           :begin == children[1].type ? children[1].body : children[1..-1]

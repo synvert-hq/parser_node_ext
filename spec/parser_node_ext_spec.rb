@@ -414,6 +414,16 @@ RSpec.describe ParserNodeExt do
       expect(node.body).to eq []
     end
 
+    it 'gets for until node' do
+      node = parse('until foo; bar; end')
+      expect(node.body).to eq [parse('bar')]
+    end
+
+    it 'gets for while node' do
+      node = parse('while foo; bar; end')
+      expect(node.body).to eq [parse('bar')]
+    end
+
     it 'gets for when node' do
       code = <<~CODE
         case expression
@@ -801,6 +811,26 @@ RSpec.describe ParserNodeExt do
       CODE
       node = parse(code)
       expect(node.when_statements[0].expression).to eq parse('foo')
+    end
+
+    it 'gets for until node' do
+      code = <<~CODE
+        until condition
+          foo
+        end
+      CODE
+      node = parse(code)
+      expect(node.expression).to eq parse('condition')
+    end
+
+    it 'gets for while node' do
+      code = <<~CODE
+        while condition
+          foo
+        end
+      CODE
+      node = parse(code)
+      expect(node.expression).to eq parse('condition')
     end
 
     it 'gets for in_pattern node' do
