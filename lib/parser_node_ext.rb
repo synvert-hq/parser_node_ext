@@ -79,6 +79,7 @@ module ParserNodeExt
     restarg: %i[name],
     sclass: %i[name body],
     self: [],
+    shadowarg: %i[name],
     send: %i[receiver message arguments],
     splat: %i[name],
     str: %i[value],

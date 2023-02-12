@@ -163,6 +163,11 @@ RSpec.describe ParserNodeExt do
       expect(node.name).to eq parse('bar')
     end
 
+    it 'gets for shadowarg node' do
+      node = parse("test { |; foo, bar| }").arguments.first
+      expect(node.name).to eq :foo
+    end
+
     it 'gets for const node' do
       node = parse('Synvert')
       expect(node.name).to eq :Synvert
