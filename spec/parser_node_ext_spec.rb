@@ -898,6 +898,11 @@ RSpec.describe ParserNodeExt do
       node = parse(code).in_statements[0].guard
       expect(node.expression).to eq node.children[0]
     end
+
+    it 'gets for break node' do
+      node = parse('break 1')
+      expect(node.expression).to eq parse('1')
+    end
   end
 
   describe '#guard' do
