@@ -9,6 +9,7 @@ module ParserNodeExt
   # Your code goes here...
 
   TYPE_CHILDREN = {
+    alias: %i[new_name old_name],
     and: %i[left_value right_value],
     and_asgn: %i[left_value right_value],
     arg: %i[name],

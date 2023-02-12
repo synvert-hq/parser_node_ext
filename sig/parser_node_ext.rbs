@@ -11,6 +11,7 @@ module ParserNodeExt
   def else_statement: () -> Parser::AST::Node
   def end: () -> Parser::AST::Node
   def expression: () -> Parser::AST::Node
+  def old_name: () -> Symbol
   def options: () -> Parser::AST::Node
   def operator: () -> Symbol
   def if_statement: () -> Parser::AST::Node
@@ -20,6 +21,7 @@ module ParserNodeExt
   def left_value: () -> Parser::AST::Node | Symbol
   def message: () -> Symbol
   def name: () -> Parser::AST::Node | Symbol
+  def new_name: () -> Symbol
   def pairs: () -> Array[Parser::AST::Node]
   def parent_class: () -> Parser::AST::Node
   def receiver: () -> Parser::AST::Node

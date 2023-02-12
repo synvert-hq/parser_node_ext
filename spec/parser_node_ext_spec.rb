@@ -80,6 +80,20 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#new_name' do
+    it 'gets for alias node' do
+      node = parse('alias foo bar')
+      expect(node.new_name).to eq parse(':foo')
+    end
+  end
+
+  describe '#old_name' do
+    it 'gets for alias node' do
+      node = parse('alias foo bar')
+      expect(node.old_name).to eq parse(':bar')
+    end
+  end
+
   describe '#name' do
     it 'gets for blockpass node' do
       node = parse('object.each(&method(:foo))').arguments.first
