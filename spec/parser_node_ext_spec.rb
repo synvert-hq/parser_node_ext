@@ -81,6 +81,11 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#name' do
+    it 'gets for blockpass node' do
+      node = parse('object.each(&method(:foo))').arguments.first
+      expect(node.name).to eq parse('method(:foo)')
+    end
+
     it 'gets for class node' do
       node = parse('class Synvert; end')
       expect(node.name).to eq parse('Synvert')
