@@ -15,6 +15,7 @@ module ParserNodeExt
     arg: %i[name],
     array: %i[elements],
     array_pattern: %i[elements],
+    array_pattern_with_tail: %i[elements],
     back_ref: %i[name],
     begin: %i[body],
     block: %i[caller arguments body],
@@ -267,11 +268,11 @@ module ParserNodeExt
         children[-1]
       end
 
-      # Get elements of :array and :array_pattern node.
+      # Get elements of :array, :array_pattern, :array_pattern_with_tail, :find_pattern, :dstr, :dsym, :xstr, :regopt, :mlhs and :undef node.
       # @return [Array<Parser::AST::Node>] elements of array node.
       # @raise [MethodNotSupported] if calls on other node.
       def elements
-        if %i[array array_pattern find_pattern dstr dsym xstr regopt mlhs undef].include?(type)
+        if %i[array array_pattern array_pattern_with_tail find_pattern dstr dsym xstr regopt mlhs undef].include?(type)
           children
         elsif type == :regexp
           children[0...-1]
