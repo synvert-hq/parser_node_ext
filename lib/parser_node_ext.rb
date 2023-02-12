@@ -91,8 +91,10 @@ module ParserNodeExt
     undef: %i[elements],
     unless_guard: %i[expression],
     until: %i[expression body],
+    until_post: %i[expression body],
     when: %i[expression body],
     while: %i[expression body],
+    while_post: %i[expression body],
     xstr: %i[elements],
     yield: %i[arguments],
     zsuper: []
@@ -168,7 +170,7 @@ module ParserNodeExt
       end
 
       # Get body of node.
-      # It supports :begin, :block, :class, :def, :defs, :module, :numblock, :sclass, :until, and :while node.
+      # It supports :begin, :block, :class, :def, :defs, :module, :numblock, :sclass, :until, :until_post, :while and :while_post node.
       # @example
       #   node # s(:block, s(:send, s(:const, nil, :RSpec), :configure), s(:args, s(:arg, :config)), s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers)))
       #   node.body # [s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers))]
@@ -176,20 +178,20 @@ module ParserNodeExt
       # @raise [MethodNotSupported] if calls on other node.
       def body
         case type
-        when :begin
+        when :begin, :kwbegin
           children
-        when :when, :module, :sclass, :until, :while
+        when :when, :module, :sclass, :until, :until_post, :while, :while_post
           return [] if children[1].nil?
 
-          :begin == children[1].type ? children[1].body : children[1..-1]
+          [:begin, :kwbegin].include?(children[1].type) ? children[1].body : children[1..-1]
         when :def, :block, :class, :numblock, :in_pattern
           return [] if children[2].nil?
 
-          :begin == children[2].type ? children[2].body : children[2..-1]
+          [:begin, :kwbegin].include?(children[2].type) ? children[2].body : children[2..-1]
         when :defs
           return [] if children[3].nil?
 
-          :begin == children[3].type ? children[3].body : children[3..-1]
+          [:begin, :kwbegin].include?(children[3].type) ? children[3].body : children[3..-1]
         else
           raise MethodNotSupported, "body is not supported for #{self}"
         end
@@ -347,7 +349,7 @@ module ParserNodeExt
           (children.first.to_value..children.last.to_value)
         when :erange
           (children.first.to_value...children.last.to_value)
-        when :begin
+        when :begin, :kwbegin
           children.first.to_value
         else
           self
