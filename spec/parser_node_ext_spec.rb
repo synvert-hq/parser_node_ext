@@ -606,9 +606,14 @@ RSpec.describe ParserNodeExt do
       expect(node.left_value).to eq node.children[0]
     end
 
+    it 'gets for and_asgn' do
+      node = parse('a &&= 1')
+      expect(node.left_value).to eq node.children[0]
+    end
+
     it 'gets for or_asgn' do
       node = parse('a ||= 1')
-      expect(node.left_value).to eq :a
+      expect(node.left_value).to eq node.children[0]
     end
 
     it 'gets for and' do
@@ -665,6 +670,11 @@ RSpec.describe ParserNodeExt do
 
     it 'gets for op_asgn' do
       node = parse('a += 1')
+      expect(node.right_value).to eq parse('1')
+    end
+
+    it 'gets for and_asgn' do
+      node = parse('a &&= 1')
       expect(node.right_value).to eq parse('1')
     end
 

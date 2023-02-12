@@ -10,6 +10,7 @@ module ParserNodeExt
 
   TYPE_CHILDREN = {
     and: %i[left_value right_value],
+    and_asgn: %i[left_value right_value],
     arg: %i[name],
     array: %i[elements],
     array_pattern: %i[elements],
@@ -131,22 +132,6 @@ module ParserNodeExt
 
           raise MethodNotSupported, "#{method_name} is not supported for #{self}"
         end
-      end
-
-      # Return the left value of node.
-      # It supports :and, :cvagn, :lvasgn, :masgn, :or and :or_asgn nodes.
-      # @example
-      #   node # s(:or_asgn, s(:lvasgn, :a), s(:int, 1))
-      #   node.left_value # :a
-      # @return [Parser::AST::Node] left value of node.
-      # @raise [MethodNotSupported] if calls on other node.
-      def left_value
-        return children[0].children[0] if type == :or_asgn
-
-        index = TYPE_CHILDREN[type]&.index(:left_value)
-        return children[index] if index
-
-        raise MethodNotSupported, "#{left_value} is not supported for #{self}"
       end
 
       # Get arguments of node.
