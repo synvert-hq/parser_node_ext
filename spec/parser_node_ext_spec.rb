@@ -179,6 +179,16 @@ RSpec.describe ParserNodeExt do
       expect(node.name).to eq parse('foo')
     end
 
+    it 'gets for nth_ref node' do
+      node = parse("$1")
+      expect(node.name).to eq 1
+    end
+
+    it 'gets for back_ref node' do
+      node = parse("$&")
+      expect(node.name).to eq :$&
+    end
+
     it 'gets for match_var node' do
       code = <<~CODE
         case name_hash
