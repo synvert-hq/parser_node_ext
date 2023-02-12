@@ -82,7 +82,7 @@ module ParserNodeExt
     or: %i[left_value right_value],
     or_asgn: %i[variable value],
     pair: %i[key value],
-    pin: %i[variable],
+    pin: %i[expression],
     postexe: %i[body],
     preexe: %i[body],
     rational: %i[value],

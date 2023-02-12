@@ -84,20 +84,6 @@ RSpec.describe ParserNodeExt do
       expect(node.variable).to eq node.children[1]
     end
 
-    it 'gets for pin node' do
-      code = <<~CODE
-        expectation = 18
-        case [1, 2]
-        in ^expectation, *rest
-          "matched. expectation was: \#{expectation}"
-        else
-          "not matched. expectation was: \#{expectation}"
-        end
-      CODE
-      node = parse(code).body[1].in_statements[0].expression.elements[0]
-      expect(node.variable.name).to eq :expectation
-    end
-
     it 'gets for match_rest node' do
       code = <<~CODE
         expectation = 18
@@ -1037,6 +1023,20 @@ RSpec.describe ParserNodeExt do
     it 'gets for return node' do
       node = parse('return 1')
       expect(node.expression).to eq parse('1')
+    end
+
+    it 'gets for pin node' do
+      code = <<~CODE
+        expectation = 18
+        case [1, 2]
+        in ^expectation, *rest
+          "matched. expectation was: \#{expectation}"
+        else
+          "not matched. expectation was: \#{expectation}"
+        end
+      CODE
+      node = parse(code).body[1].in_statements[0].expression.elements[0]
+      expect(node.expression.name).to eq :expectation
     end
   end
 
