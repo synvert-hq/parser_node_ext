@@ -66,6 +66,7 @@ module ParserNodeExt
     nth_ref: %i[name],
     numblock: %i[caller arguments_count body],
     optarg: %i[name value],
+    op_asgn: %i[left_value operator right_value],
     or: %i[left_value right_value],
     or_asgn: %i[left_value right_value],
     pair: %i[key value],

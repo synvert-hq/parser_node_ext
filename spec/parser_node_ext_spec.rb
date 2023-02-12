@@ -601,6 +601,11 @@ RSpec.describe ParserNodeExt do
       expect(node.left_value).to eq :$a
     end
 
+    it 'gets for op_asgn' do
+      node = parse('a += 1')
+      expect(node.left_value).to eq node.children[0]
+    end
+
     it 'gets for or_asgn' do
       node = parse('a ||= 1')
       expect(node.left_value).to eq :a
@@ -658,6 +663,11 @@ RSpec.describe ParserNodeExt do
       expect(node.right_value).to eq parse('1')
     end
 
+    it 'gets for op_asgn' do
+      node = parse('a += 1')
+      expect(node.right_value).to eq parse('1')
+    end
+
     it 'gets for or_asgn' do
       node = parse('a ||= 1')
       expect(node.right_value).to eq parse('1')
@@ -683,6 +693,13 @@ RSpec.describe ParserNodeExt do
       node = parse('config => {db: {user:}}')
       expect(node.right_value).to eq node.children[1]
       expect(node.right_value.type).to eq :hash_pattern
+    end
+  end
+
+  describe '#operator' do
+    it 'gets for op_asgn' do
+      node = parse('a += 1')
+      expect(node.operator).to eq :+
     end
   end
 
