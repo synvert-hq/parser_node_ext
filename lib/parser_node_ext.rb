@@ -36,6 +36,7 @@ module ParserNodeExt
     defs: %i[self name arguments body],
     dstr: %i[elements],
     dsym: %i[elements],
+    ensure: %i[body ensure_body],
     erange: %i[begin end],
     false: [],
     find_pattern: %i[elements],
@@ -178,7 +179,7 @@ module ParserNodeExt
       end
 
       # Get body of node.
-      # It supports :begin, :block, :class, :def, :defs, :for, :module, :numblock, resbody, :sclass, :until, :until_post, :while and :while_post node.
+      # It supports :begin, :block, :class, :def, :defs, :ensure, :for, :module, :numblock, resbody, :sclass, :until, :until_post, :while and :while_post node.
       # @example
       #   node # s(:block, s(:send, s(:const, nil, :RSpec), :configure), s(:args, s(:arg, :config)), s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers)))
       #   node.body # [s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers))]
@@ -188,7 +189,7 @@ module ParserNodeExt
         case type
         when :begin, :kwbegin
           children
-        when :rescue
+        when :rescue, :ensure
           return [] if children[0].nil?
 
           [:begin, :kwbegin].include?(children[0].type) ? children[0].body : [children[0]]
@@ -228,6 +229,17 @@ module ParserNodeExt
           children[1...-1]
         else
           raise MethodNotSupported, "rescue_bodies is not supported for #{self}"
+        end
+      end
+
+      # Get ensure body of ensure node.
+      # @return [Array<Parser::AST::Node>] ensure body of ensure node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def ensure_body
+        if :ensure == type
+          children[1..-1]
+        else
+          raise MethodNotSupported, "ensure_body is not supported for #{self}"
         end
       end
 

@@ -538,6 +538,18 @@ RSpec.describe ParserNodeExt do
       expect(node.body).to eq [parse('1')]
     end
 
+    it 'gets for ensure node' do
+      code = <<~CODE
+        begin
+          foobar
+        ensure
+          1
+        end
+      CODE
+      node = parse(code).children.first
+      expect(node.body).to eq [parse('foobar')]
+    end
+
     it 'gets for in_pattern node' do
       code = <<~CODE
         case name_hash
@@ -574,6 +586,20 @@ RSpec.describe ParserNodeExt do
       CODE
       node = parse(code).children.first
       expect(node.rescue_bodies.size).to eq 2
+    end
+  end
+
+  describe '#ensure_body' do
+    it 'gets for ensure node' do
+      code = <<~CODE
+        begin
+          foobar
+        ensure
+          1
+        end
+      CODE
+      node = parse(code).children.first
+      expect(node.ensure_body).to eq [parse('1')]
     end
   end
 

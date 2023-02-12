@@ -11,6 +11,7 @@ module ParserNodeExt
   def else_statement: () -> Parser::AST::Node
   def exceptions: () -> Array[Parser::AST::Node]
   def end: () -> Parser::AST::Node
+  def ensure_body: () -> Array[Parser::AST::Node]
   def expression: () -> Parser::AST::Node
   def old_name: () -> Symbol
   def options: () -> Parser::AST::Node
@@ -26,6 +27,7 @@ module ParserNodeExt
   def pairs: () -> Array[Parser::AST::Node]
   def parent_class: () -> Parser::AST::Node
   def receiver: () -> Parser::AST::Node
+  def rescue_bodies: () -> Array[Parser::AST::Node]
   def right_value: () -> Parser::AST::Node
   def self: () -> Parser::AST::Node
   def value: () -> Parser::AST::Node
