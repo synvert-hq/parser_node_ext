@@ -11,6 +11,7 @@ module ParserNodeExt
   def else_statement: () -> Parser::AST::Node
   def end: () -> Parser::AST::Node
   def expression: () -> Parser::AST::Node
+  def options: () -> Parser::AST::Node
   def if_statement: () -> Parser::AST::Node
   def in_statements: () -> Array[Parser::AST::Node]
   def key: () -> Parser::AST::Node

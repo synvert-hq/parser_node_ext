@@ -59,6 +59,8 @@ module ParserNodeExt
     pair: %i[key value],
     pin: %i[variable],
     rational: %i[value],
+    regexp: %i[elements options],
+    regopt: %i[elements],
     restarg: %i[name],
     self: [],
     send: %i[receiver message arguments],
@@ -218,10 +220,26 @@ module ParserNodeExt
       # @return [Array<Parser::AST::Node>] elements of array node.
       # @raise [MethodNotSupported] if calls on other node.
       def elements
-        if %i[array array_pattern find_pattern].include?(type)
+        if %i[array array_pattern find_pattern dstr dsym xstr regopt].include?(type)
           children
+        elsif type == :regexp
+          children[0...-1]
         else
           raise MethodNotSupported, "elements is not supported for #{self}"
+        end
+      end
+
+      # Get options of :regexp node.
+      # @example
+      #   node # s(:regexp, s(:str, "foo"), s(:regopt, :i, :m))
+      #   node.options # s(:regopt, :i, :m)
+      # @return [Parser::AST::Node] options of regexp node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def options
+        if :regexp == type
+          children[-1]
+        else
+          raise MethodNotSupported, "options is not supported for #{self}"
         end
       end
 

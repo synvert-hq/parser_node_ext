@@ -417,7 +417,7 @@ RSpec.describe ParserNodeExt do
       expect(node.value).to eq (2/1)
     end
 
-    it 'gets for hash node' do
+    it 'gets for pair node' do
       node = parse("{:foo => 'bar'}").children[0]
       expect(node.value).to eq parse("'bar'")
     end
@@ -848,6 +848,23 @@ RSpec.describe ParserNodeExt do
     it 'gets for xstr' do
       node = parse('`foo#{bar}baz`')
       expect(node.elements).to eq node.children
+    end
+
+    it 'gets for regexp' do
+      node = parse('/foo#{bar}baz/im')
+      expect(node.elements).to eq node.children[0...-1]
+    end
+
+    it 'gets for regopt node' do
+      node = parse('/foo#{bar}baz/im').options
+      expect(node.elements).to eq [:i, :m]
+    end
+  end
+
+  describe '#options' do
+    it 'gets for regexp' do
+      node = parse('/foo#{bar}baz/im')
+      expect(node.options).to eq node.children[-1]
     end
   end
 
