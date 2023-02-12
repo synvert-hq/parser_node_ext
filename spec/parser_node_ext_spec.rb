@@ -164,6 +164,11 @@ RSpec.describe ParserNodeExt do
       expect(node.name).to eq :entry
     end
 
+    it 'gets for splat node' do
+      node = parse('test(*foo)').arguments.first
+      expect(node.name).to eq parse('foo')
+    end
+
     it 'gets for match_var node' do
       code = <<~CODE
         case name_hash

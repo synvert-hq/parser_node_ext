@@ -68,6 +68,7 @@ module ParserNodeExt
     restarg: %i[name],
     self: [],
     send: %i[receiver message arguments],
+    splat: %i[name],
     str: %i[value],
     super: %i[arguments],
     sym: %i[value],
