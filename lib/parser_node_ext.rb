@@ -87,6 +87,7 @@ module ParserNodeExt
     resbody: %i[exceptions variable body],
     rescue: %i[body rescue_bodies else_statement],
     restarg: %i[name],
+    retry: [],
     return: %i[expression],
     sclass: %i[name body],
     self: [],
