@@ -67,6 +67,7 @@ module ParserNodeExt
     lvasgn: %i[variable value],
     masgn: %i[variable value],
     match_as: %i[key value],
+    match_nil_pattern: [],
     match_pattern: %i[left_value right_value],
     match_pattern_p: %i[left_value right_value],
     match_rest: %i[variable],
