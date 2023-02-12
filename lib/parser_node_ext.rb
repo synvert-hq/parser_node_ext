@@ -39,6 +39,7 @@ module ParserNodeExt
     false: [],
     find_pattern: %i[elements],
     float: %i[value],
+    for: %i[variable expression body],
     forward_args: [],
     gvar: %i[name],
     gvasgn: %i[left_value right_value],
@@ -170,7 +171,7 @@ module ParserNodeExt
       end
 
       # Get body of node.
-      # It supports :begin, :block, :class, :def, :defs, :module, :numblock, :sclass, :until, :until_post, :while and :while_post node.
+      # It supports :begin, :block, :class, :def, :defs, :for, :module, :numblock, :sclass, :until, :until_post, :while and :while_post node.
       # @example
       #   node # s(:block, s(:send, s(:const, nil, :RSpec), :configure), s(:args, s(:arg, :config)), s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers)))
       #   node.body # [s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers))]
@@ -184,7 +185,7 @@ module ParserNodeExt
           return [] if children[1].nil?
 
           [:begin, :kwbegin].include?(children[1].type) ? children[1].body : children[1..-1]
-        when :def, :block, :class, :numblock, :in_pattern
+        when :def, :block, :class, :for, :in_pattern, :numblock
           return [] if children[2].nil?
 
           [:begin, :kwbegin].include?(children[2].type) ? children[2].body : children[2..-1]

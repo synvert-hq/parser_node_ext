@@ -27,6 +27,11 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#variable' do
+    it 'gets for for node' do
+      node = parse('for i in 1..10 do; foo; end')
+      expect(node.variable).to eq node.children[0]
+    end
+
     it 'gets for pin node' do
       code = <<~CODE
         expectation = 18
@@ -412,6 +417,11 @@ RSpec.describe ParserNodeExt do
     it 'gets for def node with empty body' do
       node = parse('def self.test; end')
       expect(node.body).to eq []
+    end
+
+    it 'gets for for node' do
+      node = parse('for i in 1..10 do; foo; end')
+      expect(node.body).to eq [parse('foo')]
     end
 
     it 'gets for until node' do
@@ -807,6 +817,11 @@ RSpec.describe ParserNodeExt do
       CODE
       node = parse(code)
       expect(node.expression).to eq parse('name_hash')
+    end
+
+    it 'gets for for node' do
+      node = parse('for i in 1..10; foo; end')
+      expect(node.expression).to eq parse('1..10')
     end
 
     it 'gets for when node' do
