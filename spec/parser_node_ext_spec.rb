@@ -164,6 +164,11 @@ RSpec.describe ParserNodeExt do
       expect(node.name).to eq :@@foo
     end
 
+    it 'gets for gvar node' do
+      node = parse('$foo')
+      expect(node.name).to eq :$foo
+    end
+
     it 'gets for restarg node' do
       node = parse('object.each { |*entry| }').arguments.first
       expect(node.name).to eq :entry
