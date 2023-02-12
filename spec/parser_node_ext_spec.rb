@@ -569,6 +569,16 @@ RSpec.describe ParserNodeExt do
       node = parse('(1..10).each { p _1 * 2 }')
       expect(node.body).to eq [node.children[2]]
     end
+
+    it 'gets for preexe node' do
+      node = parse('BEGIN { puts "foo" }')
+      expect(node.body).to eq [node.children[0]]
+    end
+
+    it 'gets for postexe node' do
+      node = parse('END { puts "bar" }')
+      expect(node.body).to eq [node.children[0]]
+    end
   end
 
   describe '#rescue_bodies' do

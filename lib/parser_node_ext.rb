@@ -80,6 +80,8 @@ module ParserNodeExt
     or_asgn: %i[variable value],
     pair: %i[key value],
     pin: %i[variable],
+    postexe: %i[body],
+    preexe: %i[body],
     rational: %i[value],
     redo: [],
     regexp: %i[elements options],
@@ -190,7 +192,7 @@ module ParserNodeExt
         case type
         when :begin, :kwbegin
           children
-        when :rescue, :ensure
+        when :rescue, :ensure, :preexe, :postexe
           return [] if children[0].nil?
 
           [:begin, :kwbegin].include?(children[0].type) ? children[0].body : [children[0]]
