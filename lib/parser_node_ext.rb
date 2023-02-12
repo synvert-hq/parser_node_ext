@@ -28,6 +28,8 @@ module ParserNodeExt
     def: %i[name arguments body],
     defined?: %i[arguments],
     defs: %i[self name arguments body],
+    dstr: %i[elements],
+    dsym: %i[elements],
     erange: %i[begin end],
     false: [],
     find_pattern: %i[elements],
@@ -66,6 +68,7 @@ module ParserNodeExt
     true: [],
     unless_guard: %i[expression],
     when: %i[expression body],
+    xstr: %i[elements],
     zsuper: []
   }
 

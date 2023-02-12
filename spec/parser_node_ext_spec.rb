@@ -834,6 +834,21 @@ RSpec.describe ParserNodeExt do
       node = parse(code).in_statements[0].expression
       expect(node.elements).to eq node.children
     end
+
+    it 'gets for dstr' do
+      node = parse('"foo#{bar}baz"')
+      expect(node.elements).to eq node.children
+    end
+
+    it 'gets for dsym' do
+      node = parse(':"foo#{bar}baz"')
+      expect(node.elements).to eq node.children
+    end
+
+    it 'gets for xstr' do
+      node = parse('`foo#{bar}baz`')
+      expect(node.elements).to eq node.children
+    end
   end
 
   describe '#to_value' do
