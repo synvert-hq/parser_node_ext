@@ -27,6 +27,46 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#variable' do
+    it 'gets for masgn' do
+      node = parse('a, b = 1, 2')
+      expect(node.variable.type).to eq :mlhs
+    end
+
+    it 'gets for lvasgn' do
+      node = parse('a = 1')
+      expect(node.variable).to eq :a
+    end
+
+    it 'gets for ivasgn' do
+      node = parse('@a = 1')
+      expect(node.variable).to eq :@a
+    end
+
+    it 'gets for cvasgn' do
+      node = parse('@@a = 1')
+      expect(node.variable).to eq :@@a
+    end
+
+    it 'gets for gvasgn' do
+      node = parse('$a = 1')
+      expect(node.variable).to eq :$a
+    end
+
+    it 'gets for op_asgn' do
+      node = parse('a += 1')
+      expect(node.variable).to eq node.children[0]
+    end
+
+    it 'gets for and_asgn' do
+      node = parse('a &&= 1')
+      expect(node.variable).to eq node.children[0]
+    end
+
+    it 'gets for or_asgn' do
+      node = parse('a ||= 1')
+      expect(node.variable).to eq node.children[0]
+    end
+
     it 'gets for for node' do
       node = parse('for i in 1..10 do; foo; end')
       expect(node.variable).to eq node.children[0]
@@ -585,6 +625,52 @@ RSpec.describe ParserNodeExt do
       expect(node.value).to eq parse("'foo'")
     end
 
+    it 'gets for masgn' do
+      node = parse('a, b = 1, 2')
+      expect(node.value).to eq parse('[1, 2]')
+    end
+
+    it 'gets for masgn' do
+      node = parse('a, b = params')
+      expect(node.value).to eq parse('params')
+    end
+
+    it 'gets for lvasgn' do
+      node = parse('a = 1')
+      expect(node.value).to eq parse('1')
+    end
+
+    it 'gets for ivasgn' do
+      node = parse('@a = 1')
+      expect(node.value).to eq parse('1')
+    end
+
+    it 'gets for cvasgn' do
+      node = parse('@@a = 1')
+      expect(node.value).to eq parse('1')
+    end
+
+    it 'gets for gvasgn' do
+      node = parse('$a = 1')
+      expect(node.value).to eq parse('1')
+    end
+
+    it 'gets for op_asgn' do
+      node = parse('a += 1')
+      expect(node.value).to eq parse('1')
+    end
+
+    it 'gets for and_asgn' do
+      node = parse('a &&= 1')
+      expect(node.value).to eq parse('1')
+    end
+
+    it 'gets for or_asgn' do
+      node = parse('a ||= 1')
+      expect(node.value).to eq parse('1')
+    end
+
+
     it 'gets for casgn node' do
       node = parse('::Foo = 1')
       expect(node.value).to eq parse('1')
@@ -640,46 +726,6 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#left_value' do
-    it 'gets for masgn' do
-      node = parse('a, b = 1, 2')
-      expect(node.left_value.type).to eq :mlhs
-    end
-
-    it 'gets for lvasgn' do
-      node = parse('a = 1')
-      expect(node.left_value).to eq :a
-    end
-
-    it 'gets for ivasgn' do
-      node = parse('@a = 1')
-      expect(node.left_value).to eq :@a
-    end
-
-    it 'gets for cvasgn' do
-      node = parse('@@a = 1')
-      expect(node.left_value).to eq :@@a
-    end
-
-    it 'gets for gvasgn' do
-      node = parse('$a = 1')
-      expect(node.left_value).to eq :$a
-    end
-
-    it 'gets for op_asgn' do
-      node = parse('a += 1')
-      expect(node.left_value).to eq node.children[0]
-    end
-
-    it 'gets for and_asgn' do
-      node = parse('a &&= 1')
-      expect(node.left_value).to eq node.children[0]
-    end
-
-    it 'gets for or_asgn' do
-      node = parse('a ||= 1')
-      expect(node.left_value).to eq node.children[0]
-    end
-
     it 'gets for and' do
       node = parse('foo && bar')
       expect(node.left_value).to eq parse('foo')
@@ -702,51 +748,6 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#right_value' do
-    it 'gets for masgn' do
-      node = parse('a, b = 1, 2')
-      expect(node.right_value).to eq parse('[1, 2]')
-    end
-
-    it 'gets for masgn' do
-      node = parse('a, b = params')
-      expect(node.right_value).to eq parse('params')
-    end
-
-    it 'gets for lvasgn' do
-      node = parse('a = 1')
-      expect(node.right_value).to eq parse('1')
-    end
-
-    it 'gets for ivasgn' do
-      node = parse('@a = 1')
-      expect(node.right_value).to eq parse('1')
-    end
-
-    it 'gets for cvasgn' do
-      node = parse('@@a = 1')
-      expect(node.right_value).to eq parse('1')
-    end
-
-    it 'gets for gvasgn' do
-      node = parse('$a = 1')
-      expect(node.right_value).to eq parse('1')
-    end
-
-    it 'gets for op_asgn' do
-      node = parse('a += 1')
-      expect(node.right_value).to eq parse('1')
-    end
-
-    it 'gets for and_asgn' do
-      node = parse('a &&= 1')
-      expect(node.right_value).to eq parse('1')
-    end
-
-    it 'gets for or_asgn' do
-      node = parse('a ||= 1')
-      expect(node.right_value).to eq parse('1')
-    end
-
     it 'gets for and' do
       node = parse('foo && bar')
       expect(node.right_value).to eq parse('bar')
@@ -1072,7 +1073,7 @@ RSpec.describe ParserNodeExt do
     end
 
     it 'gets for masgn node' do
-      node = parse('a, b = 1, 2').left_value
+      node = parse('a, b = 1, 2').variable
       expect(node.elements).to eq node.children
     end
 
