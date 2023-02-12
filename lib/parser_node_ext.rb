@@ -60,6 +60,7 @@ module ParserNodeExt
     match_pattern_p: %i[left_value right_value],
     match_rest: %i[variable],
     match_var: %i[name],
+    mlhs: %i[elements],
     module: %i[name body],
     nil: [],
     nth_ref: %i[name],
@@ -232,7 +233,7 @@ module ParserNodeExt
       # @return [Array<Parser::AST::Node>] elements of array node.
       # @raise [MethodNotSupported] if calls on other node.
       def elements
-        if %i[array array_pattern find_pattern dstr dsym xstr regopt].include?(type)
+        if %i[array array_pattern find_pattern dstr dsym xstr regopt mlhs].include?(type)
           children
         elsif type == :regexp
           children[0...-1]

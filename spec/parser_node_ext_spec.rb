@@ -939,6 +939,11 @@ RSpec.describe ParserNodeExt do
       node = parse('/foo#{bar}baz/im').options
       expect(node.elements).to eq [:i, :m]
     end
+
+    it 'gets for masgn' do
+      node = parse('a, b = 1, 2').left_value
+      expect(node.elements).to eq node.children
+    end
   end
 
   describe '#options' do
