@@ -92,6 +92,7 @@ module ParserNodeExt
     unless_guard: %i[expression],
     when: %i[expression body],
     xstr: %i[elements],
+    yield: %i[arguments],
     zsuper: []
   }
 
@@ -141,7 +142,7 @@ module ParserNodeExt
       end
 
       # Get arguments of node.
-      # It supports :block, :csend, :def, :defined?, :defs and :send nodes.
+      # It supports :block, :csend, :def, :defined?, :defs, :send, :yeild nodes.
       # @example
       #   node # s(:send, s(:const, nil, :FactoryGirl), :create, s(:sym, :post), s(:hash, s(:pair, s(:sym, :title), s(:str, "post"))))
       #   node.arguments # [s(:sym, :post), s(:hash, s(:pair, s(:sym, :title), s(:str, "post")))]
@@ -157,7 +158,7 @@ module ParserNodeExt
           children[1].children
         when :send, :csend
           children[2..-1]
-        when :defined?
+        when :defined?, :yield
           children
         else
           raise MethodNotSupported, "arguments is not supported for #{self}"
@@ -165,7 +166,7 @@ module ParserNodeExt
       end
 
       # Get body of node.
-      # It supports :begin, :block, :class, :def, :defs, :module, :numblock node.
+      # It supports :begin, :block, :class, :def, :defs, :module, :numblock and :sclass node.
       # @example
       #   node # s(:block, s(:send, s(:const, nil, :RSpec), :configure), s(:args, s(:arg, :config)), s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers)))
       #   node.body # [s(:send, nil, :include, s(:const, s(:const, nil, :EmailSpec), :Helpers))]

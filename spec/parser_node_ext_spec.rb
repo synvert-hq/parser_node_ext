@@ -327,6 +327,11 @@ RSpec.describe ParserNodeExt do
       node = parse('defined?(Bundler)')
       expect(node.arguments).to eq [parse('Bundler')]
     end
+
+    it 'gets for yield node' do
+      node = parse('yield(foo, bar)')
+      expect(node.arguments).to eq [parse('foo'), parse('bar')]
+    end
   end
 
   describe '#arguments_count' do
