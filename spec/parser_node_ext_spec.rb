@@ -94,6 +94,11 @@ RSpec.describe ParserNodeExt do
       expect(node.name).to eq parse('Synvert::Rewriter::Instance')
     end
 
+    it 'gets for sclass node' do
+      node = parse('class << self; end')
+      expect(node.name).to eq parse('self')
+    end
+
     it 'gets for module node' do
       node = parse('module Synvert; end')
       expect(node.name).to eq parse('Synvert')
@@ -337,6 +342,11 @@ RSpec.describe ParserNodeExt do
 
     it 'gets for class node' do
       node = parse('class User; def admin?; false; end; end')
+      expect(node.body).to eq [parse('def admin?; false; end')]
+    end
+
+    it 'gets for sclass node' do
+      node = parse('class << self; def admin?; false; end; end')
       expect(node.body).to eq [parse('def admin?; false; end')]
     end
 

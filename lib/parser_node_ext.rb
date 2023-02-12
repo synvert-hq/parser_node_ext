@@ -76,6 +76,7 @@ module ParserNodeExt
     regexp: %i[elements options],
     regopt: %i[elements],
     restarg: %i[name],
+    sclass: %i[name body],
     self: [],
     send: %i[receiver message arguments],
     splat: %i[name],
@@ -169,7 +170,7 @@ module ParserNodeExt
         case type
         when :begin
           children
-        when :when, :module
+        when :when, :module, :sclass
           return [] if children[1].nil?
 
           :begin == children[1].type ? children[1].body : children[1..-1]
