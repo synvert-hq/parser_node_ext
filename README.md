@@ -1,8 +1,6 @@
 # ParserNodeExt
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/parser_node_ext`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+It assigns names to the child nodes of the [parser](https://rubygems.org/gems/parser).
 
 ## Installation
 
@@ -22,7 +20,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'parser/current'
+require 'parser_node_ext'
+```
 
 ## Development
 
