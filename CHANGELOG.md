@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.1.0 (2023-05-15)
+
+* hash `xxx_value` returns the node rather than the value
+* Support `xxx_pair` for `hash` node
+
 ## 1.0.0 (2023-02-12)
 
 * Support almost all of nodes
