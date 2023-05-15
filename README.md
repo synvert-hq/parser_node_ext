@@ -2,6 +2,15 @@
 
 It assigns names to the child nodes of the [parser](https://rubygems.org/gems/parser).
 
+It also adds some helpers
+
+```ruby
+# node is a hash node
+node.foo_pair # get the pair node of hash foo key
+node.foo_value # get the value node of the hash foo key
+node.foo_source # get the source of the value node of the hash foo key
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
