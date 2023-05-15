@@ -801,30 +801,6 @@ RSpec.describe ParserNodeExt do
     end
   end
 
-  describe 'key value by method_missing' do
-    it 'gets for key value' do
-      node = parse('{:foo => :bar}')
-      expect(node.foo_value).to eq :bar
-
-      node = parse("{'foo' => 'bar'}")
-      expect(node.foo_value).to eq 'bar'
-
-      expect(node.bar_value).to be_nil
-    end
-  end
-
-  describe 'key value source by method_missing' do
-    it 'gets for key value source' do
-      node = parse('{:foo => :bar}')
-      expect(node.foo_source).to eq ':bar'
-
-      node = parse("{'foo' => 'bar'}")
-      expect(node.foo_source).to eq "'bar'"
-
-      expect(node.bar_source).to eq ''
-    end
-  end
-
   describe '#left_value' do
     it 'gets for and' do
       node = parse('foo && bar')
@@ -1346,6 +1322,42 @@ RSpec.describe ParserNodeExt do
           ]
         }
       )
+    end
+  end
+
+  describe 'pair node by method_missing' do
+    it 'gets for pair node' do
+      node = parse('{:foo => :bar}')
+      expect(node.foo_pair.to_source).to eq ':foo => :bar'
+
+      node = parse("{'foo' => 'bar'}")
+      expect(node.foo_pair.to_source).to eq "'foo' => 'bar'"
+
+      expect(node.bar_pair).to be_nil
+    end
+  end
+
+  describe 'pair value node by method_missing' do
+    it 'gets for pair value node' do
+      node = parse('{:foo => :bar}')
+      expect(node.foo_value).to eq parse(':bar')
+
+      node = parse("{'foo' => 'bar'}")
+      expect(node.foo_value).to eq parse("'bar'")
+
+      expect(node.bar_value).to be_nil
+    end
+  end
+
+  describe 'key value source by method_missing' do
+    it 'gets for key value source' do
+      node = parse('{:foo => :bar}')
+      expect(node.foo_source).to eq ':bar'
+
+      node = parse("{'foo' => 'bar'}")
+      expect(node.foo_source).to eq "'bar'"
+
+      expect(node.bar_source).to eq ''
     end
   end
 

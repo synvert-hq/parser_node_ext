@@ -367,12 +367,27 @@ module ParserNodeExt
         end
       end
 
+      # Get :hash pair node according to specified key.
+      # @example
+      #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))
+      #   node.hash_pair(:foo) # s(:pair, s(:sym, :foo), s(:sym, :bar))
+      # @param [Symbol, String] key value.
+      # @return [Parser::AST::Node] hash pair node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def hash_pair(key)
+        if :hash == type
+          children.find { |pair_node| pair_node.key.to_value == key }
+        else
+          raise MethodNotSupported, "hash_pair is not supported for #{self}"
+        end
+      end
+
       # Get :hash value node according to specified key.
       # @example
       #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))
       #   node.hash_value(:foo) # s(:sym, :bar)
       # @param [Symbol, String] key value.
-      # @return [Parser::AST::Node] hash value of node.
+      # @return [Parser::AST::Node] hash value node.
       # @raise [MethodNotSupported] if calls on other node.
       def hash_value(key)
         if :hash == type
@@ -450,6 +465,12 @@ module ParserNodeExt
       def method_missing(method_name, *args, &block)
         if :args == type && children.respond_to?(method_name)
           return children.send(method_name, *args, &block)
+        elsif :hash == type && method_name.to_s.end_with?('_pair')
+          key = method_name.to_s[0..-6]
+          return hash_pair(key.to_sym) if key?(key.to_sym)
+          return hash_pair(key.to_s) if key?(key.to_s)
+
+          return nil
         elsif :hash == type && method_name.to_s.end_with?('_value')
           key = method_name.to_s[0..-7]
           return hash_value(key.to_sym) if key?(key.to_sym)
@@ -470,6 +491,9 @@ module ParserNodeExt
       def respond_to_missing?(method_name, *args)
         if :args == type && children.respond_to?(method_name)
           return true
+        elsif :hash == type && method_name.to_s.end_with?('_pair')
+          key = method_name.to_s[0..-6]
+          return key?(key.to_sym) || key?(key.to_s)
         elsif :hash == type && method_name.to_s.end_with?('_value')
           key = method_name.to_s[0..-7]
           return key?(key.to_sym) || key?(key.to_s)
