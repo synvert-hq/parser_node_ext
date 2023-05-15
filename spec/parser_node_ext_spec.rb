@@ -821,7 +821,7 @@ RSpec.describe ParserNodeExt do
       node = parse("{'foo' => 'bar'}")
       expect(node.foo_source).to eq "'bar'"
 
-      expect(node.bar_source).to be_nil
+      expect(node.bar_source).to eq ''
     end
   end
 

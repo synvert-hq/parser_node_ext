@@ -450,18 +450,18 @@ module ParserNodeExt
       def method_missing(method_name, *args, &block)
         if :args == type && children.respond_to?(method_name)
           return children.send(method_name, *args, &block)
-        elsif :hash == type && method_name.to_s.include?('_value')
-          key = method_name.to_s.sub('_value', '')
-          return hash_value(key.to_sym)&.to_value if key?(key.to_sym)
-          return hash_value(key.to_s)&.to_value if key?(key.to_s)
+        elsif :hash == type && method_name.to_s.end_with?('_value')
+          key = method_name.to_s[0..-7]
+          return hash_value(key.to_sym) if key?(key.to_sym)
+          return hash_value(key.to_s) if key?(key.to_s)
 
           return nil
-        elsif :hash == type && method_name.to_s.include?('_source')
-          key = method_name.to_s.sub('_source', '')
+        elsif :hash == type && method_name.to_s.end_with?('_source')
+          key = method_name.to_s[0..-8]
           return hash_value(key.to_sym)&.to_source if key?(key.to_sym)
           return hash_value(key.to_s)&.to_source if key?(key.to_s)
 
-          return nil
+          return ''
         end
 
         super
@@ -470,12 +470,12 @@ module ParserNodeExt
       def respond_to_missing?(method_name, *args)
         if :args == type && children.respond_to?(method_name)
           return true
-        elsif :hash == type && method_name.to_s.include?('_value')
-          key = method_name.to_s.sub('_value', '')
-          return true if key?(key.to_sym) || key?(key.to_s)
-        elsif :hash == type && method_name.to_s.include?('_source')
-          key = method_name.to_s.sub('_source', '')
-          return true if key?(key.to_sym) || key?(key.to_s)
+        elsif :hash == type && method_name.to_s.end_with?('_value')
+          key = method_name.to_s[0..-7]
+          return key?(key.to_sym) || key?(key.to_s)
+        elsif :hash == type && method_name.to_s.end_with?('_source')
+          key = method_name.to_s[0..-8]
+          return key?(key.to_sym) || key?(key.to_s)
         end
 
         super
