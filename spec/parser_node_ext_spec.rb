@@ -668,12 +668,12 @@ RSpec.describe ParserNodeExt do
   describe '#value' do
     it 'gets for complex node' do
       node = parse('1i')
-      expect(node.value).to eq (0+1i)
+      expect(node.value).to eq (0 + 1i)
     end
 
     it 'gets for rational node' do
       node = parse('2.0r')
-      expect(node.value).to eq (2/1)
+      expect(node.value).to eq (2 / 1)
     end
 
     it 'gets for pair node' do
@@ -769,7 +769,6 @@ RSpec.describe ParserNodeExt do
       node = parse('a ||= 1')
       expect(node.value).to eq parse('1')
     end
-
 
     it 'gets for casgn node' do
       node = parse('::Foo = 1')
@@ -1311,11 +1310,13 @@ RSpec.describe ParserNodeExt do
               body: [
                 {
                   type: :hash,
-                  pairs: [{
-                    type: :pair,
-                    key: { type: :lvar, name: :foo },
-                    value: { type: :lvar, name: :bar }
-                  }]
+                  pairs: [
+                    {
+                      type: :pair,
+                      key: { type: :lvar, name: :foo },
+                      value: { type: :lvar, name: :bar }
+                    }
+                  ]
                 }
               ]
             }
@@ -1364,7 +1365,8 @@ RSpec.describe ParserNodeExt do
   describe 'not supported method' do
     it 'raises MethodNotSupported error' do
       node = parse('class Synvert; end')
-      expect { node.message }.to raise_error(ParserNodeExt::MethodNotSupported)
+      expect { node.message }
+        .to raise_error(ParserNodeExt::MethodNotSupported)
     end
   end
 end
