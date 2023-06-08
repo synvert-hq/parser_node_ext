@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.2 (2023-06-08)
+
+* `node_type` instead of `type` in `to_hash` output
+
 ## 1.1.1 (2023-05-19)
 
 * Remove rbs
