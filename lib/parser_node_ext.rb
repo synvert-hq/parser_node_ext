@@ -437,7 +437,7 @@ module ParserNodeExt
 
       # Convert node to a hash, so that it can be converted to a json.
       def to_hash
-        result = { type: type }
+        result = { node_type: type }
         if TYPE_CHILDREN[type]
           TYPE_CHILDREN[type].each do |key|
             value = send(key)
