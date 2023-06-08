@@ -1292,29 +1292,29 @@ RSpec.describe ParserNodeExt do
       EOS
       expect(node.to_hash).to eq(
         {
-          type: :class,
+          node_type: :class,
           parent_class: nil,
           name: {
-            type: :const,
+            node_type: :const,
             parent_const: nil,
             name: :Synvert
           },
           body: [
             {
-              type: :def,
+              node_type: :def,
               name: :foobar,
               arguments: [
-                { type: :arg, name: :foo },
-                { type: :arg, name: :bar }
+                { node_type: :arg, name: :foo },
+                { node_type: :arg, name: :bar }
               ],
               body: [
                 {
-                  type: :hash,
+                  node_type: :hash,
                   pairs: [
                     {
-                      type: :pair,
-                      key: { type: :lvar, name: :foo },
-                      value: { type: :lvar, name: :bar }
+                      node_type: :pair,
+                      key: { node_type: :lvar, name: :foo },
+                      value: { node_type: :lvar, name: :bar }
                     }
                   ]
                 }
