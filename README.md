@@ -2,6 +2,13 @@
 
 It assigns names to the child nodes of the [parser](https://rubygems.org/gems/parser).
 
+```ruby
+# node is a send node
+node.receiver # get the receiver of node
+node.message # get the message of node
+node.arguments # get the arguments of node
+```
+
 It also adds some helpers
 
 ```ruby
