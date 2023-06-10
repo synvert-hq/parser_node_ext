@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0 (2023-06-10)
+
+* Separate `kwsplats` from hash `pairs`
+
 ## 1.1.3 (2023-06-08)
 
 * `node_type` instead of `type` in `to_hash` output
