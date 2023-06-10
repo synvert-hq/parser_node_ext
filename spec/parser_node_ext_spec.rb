@@ -222,7 +222,7 @@ RSpec.describe ParserNodeExt do
     end
 
     it 'gets for kwsplat node' do
-      node = parse("foo(1 => 2, **bar, baz: 3)").arguments.first.pairs[1]
+      node = parse("foo(1 => 2, **bar, baz: 3)").arguments.first.kwsplats[0]
       expect(node.name).to eq parse('bar')
     end
 
@@ -616,6 +616,13 @@ RSpec.describe ParserNodeExt do
       CODE
       node = parse(code).children.first
       expect(node.ensure_body).to eq [parse('1')]
+    end
+  end
+
+  describe '#kwsplats' do
+    it 'gets for hash node' do
+      node = parse("foo(1 => 2, **bar, baz: 3)").arguments.first
+      expect(node.kwsplats).to eq [node.children[1]]
     end
   end
 
@@ -1310,6 +1317,7 @@ RSpec.describe ParserNodeExt do
               body: [
                 {
                   node_type: :hash,
+                  kwsplats: [],
                   pairs: [
                     {
                       node_type: :pair,

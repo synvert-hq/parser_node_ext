@@ -47,8 +47,8 @@ module ParserNodeExt
     forward_args: [],
     gvar: %i[name],
     gvasgn: %i[variable value],
-    hash: %i[pairs],
-    hash_pattern: %i[pairs],
+    hash: %i[pairs kwsplats],
+    hash_pattern: %i[pairs kwsplats],
     if: %i[expression if_statement else_statement],
     iflipflop: %i[begin end],
     if_guard: %i[expression],
@@ -318,7 +318,7 @@ module ParserNodeExt
       # @raise [MethodNotSupported] if calls on other node.
       def pairs
         if %i[hash hash_pattern].include?(type)
-          children
+          children.select { |child| child.type == :pair }
         else
           raise MethodNotSupported, "pairs is not supported for #{self}"
         end
@@ -331,8 +331,8 @@ module ParserNodeExt
       # @return [Array<Parser::AST::Node>] keys of node.
       # @raise [MethodNotSupported] if calls on other node.
       def keys
-        if :hash == type
-          children.map { |child| child.children[0] }
+        if %i[hash hash_pattern].include?(type)
+          pairs.map(&:key)
         else
           raise MethodNotSupported, "keys is not supported for #{self}"
         end
@@ -345,8 +345,8 @@ module ParserNodeExt
       # @return [Array<Parser::AST::Node>] values of node.
       # @raise [MethodNotSupported] if calls on other node.
       def values
-        if :hash == type
-          children.map { |child| child.children[1] }
+        if %i[hash hash_pattern].include?(type)
+          pairs.map(&:value)
         else
           raise MethodNotSupported, "keys is not supported for #{self}"
         end
@@ -360,8 +360,8 @@ module ParserNodeExt
       # @return [Boolean] true if specified key exists.
       # @raise [MethodNotSupported] if calls on other node.
       def key?(key)
-        if :hash == type
-          children.any? { |pair_node| pair_node.key.to_value == key }
+        if %i[hash hash_pattern].include?(type)
+          pairs.any? { |pair_node| pair_node.key.to_value == key }
         else
           raise MethodNotSupported, "key? is not supported for #{self}"
         end
@@ -375,8 +375,8 @@ module ParserNodeExt
       # @return [Parser::AST::Node] hash pair node.
       # @raise [MethodNotSupported] if calls on other node.
       def hash_pair(key)
-        if :hash == type
-          children.find { |pair_node| pair_node.key.to_value == key }
+        if %i[hash hash_pattern].include?(type)
+          pairs.find { |pair_node| pair_node.key.to_value == key }
         else
           raise MethodNotSupported, "hash_pair is not supported for #{self}"
         end
@@ -390,11 +390,25 @@ module ParserNodeExt
       # @return [Parser::AST::Node] hash value node.
       # @raise [MethodNotSupported] if calls on other node.
       def hash_value(key)
-        if :hash == type
-          value_node = children.find { |pair_node| pair_node.key.to_value == key }
+        if %i[hash hash_pattern].include?(type)
+          value_node = pairs.find { |pair_node| pair_node.key.to_value == key }
           value_node&.value
         else
           raise MethodNotSupported, "hash_value is not supported for #{self}"
+        end
+      end
+
+      # Get kwsplats of :hash and :hash_pattern node.
+      # @example
+      #   node s(:hash, s(:pair, s(:int, 1), s(:int, 2)), s(:kwsplat, s(:send, nil, :bar)), s(:pair, s(:sym, :baz), s(:int, 3)))
+      #   node.pairs # [s(:kwsplat, s(:send, nil, :bar))]
+      # @return [Array<Parser::AST::Node>] kwplats of node.
+      # @raise [MethodNotSupported] if calls on other node.
+      def kwsplats
+        if %i[hash hash_pattern].include?(type)
+          children.select { |child| child.type == :kwsplat }
+        else
+          raise MethodNotSupported, "kwsplats is not supported for #{self}"
         end
       end
 
