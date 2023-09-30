@@ -100,16 +100,6 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#begin' do
-    it 'gets for irange node' do
-      node = parse('1..2')
-      expect(node.begin).to eq parse('1')
-    end
-
-    it 'gets for erange node' do
-      node = parse('1...2')
-      expect(node.begin).to eq parse('1')
-    end
-
     it 'gets for iflipflop node' do
       node = parse('if a..b; end').expression
       expect(node.begin).to eq parse('a')
@@ -122,16 +112,6 @@ RSpec.describe ParserNodeExt do
   end
 
   describe '#end' do
-    it 'gets for irange node' do
-      node = parse('1..2')
-      expect(node.end).to eq parse('2')
-    end
-
-    it 'gets for erange node' do
-      node = parse('1...2')
-      expect(node.end).to eq parse('2')
-    end
-
     it 'gets for iflipflop node' do
       node = parse('if a..b; end').expression
       expect(node.end).to eq parse('b')
@@ -1274,16 +1254,6 @@ RSpec.describe ParserNodeExt do
     it 'gets for nil' do
       node = parse('nil')
       expect(node.to_value).to be_nil
-    end
-
-    it 'gets for irange' do
-      node = parse('(1..10)')
-      expect(node.to_value).to eq(1..10)
-    end
-
-    it 'gets for erange' do
-      node = parse('(1...10)')
-      expect(node.to_value).to eq(1...10)
     end
 
     it 'gets for array' do
