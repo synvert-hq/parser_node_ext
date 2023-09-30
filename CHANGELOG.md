@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.1 (2023-10-01)
+
+* Do not handle `irange` and `erange` in `to_value`
+
 ## 1.2.0 (2023-06-10)
 
 * Separate `kwsplats` from hash `pairs`

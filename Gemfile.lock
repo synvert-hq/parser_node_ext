@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    parser_node_ext (1.2.0)
+    parser_node_ext (1.2.1)
       parser
 
 GEM
@@ -12,7 +12,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    racc (1.7.0)
+    racc (1.7.1)
     rake (13.0.6)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
