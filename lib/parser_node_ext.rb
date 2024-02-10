@@ -445,28 +445,6 @@ module ParserNodeExt
         loc.expression&.source
       end
 
-      # Convert node to a hash, so that it can be converted to a json.
-      def to_hash
-        result = { node_type: type }
-        if TYPE_CHILDREN[type]
-          TYPE_CHILDREN[type].each do |key|
-            value = send(key)
-            result[key] =
-              case value
-              when Array
-                value.map { |v| v.respond_to?(:to_hash) ? v.to_hash : v }
-              when Parser::AST::Node
-                value.to_hash
-              else
-                value
-              end
-          end
-        else
-          result[:children] = children.map { |c| c.respond_to?(:to_hash) ? c.to_hash : c }
-        end
-        result
-      end
-
       # Respond key value and source for hash node, e.g.
       # @example
       #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))

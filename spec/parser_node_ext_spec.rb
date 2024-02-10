@@ -1270,52 +1270,6 @@ RSpec.describe ParserNodeExt do
     end
   end
 
-  describe '#to_hash' do
-    it 'gets hash' do
-      node = parse(<<~EOS)
-        class Synvert
-          def foobar(foo, bar)
-            { foo => bar }
-          end
-        end
-      EOS
-      expect(node.to_hash).to eq(
-        {
-          node_type: :class,
-          parent_class: nil,
-          name: {
-            node_type: :const,
-            parent_const: nil,
-            name: :Synvert
-          },
-          body: [
-            {
-              node_type: :def,
-              name: :foobar,
-              arguments: [
-                { node_type: :arg, name: :foo },
-                { node_type: :arg, name: :bar }
-              ],
-              body: [
-                {
-                  node_type: :hash,
-                  kwsplats: [],
-                  pairs: [
-                    {
-                      node_type: :pair,
-                      key: { node_type: :lvar, name: :foo },
-                      value: { node_type: :lvar, name: :bar }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      )
-    end
-  end
-
   describe 'pair node by method_missing' do
     it 'gets for pair node' do
       node = parse('{:foo => :bar}')
