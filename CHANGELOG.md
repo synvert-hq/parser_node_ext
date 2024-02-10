@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.2 (2024-02-10)
+
+* Remove `to_hash` extend
+
 ## 1.2.1 (2023-10-01)
 
 * Do not handle `irange` and `erange` in `to_value`
