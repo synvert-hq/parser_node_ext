@@ -1,5 +1,8 @@
 # ParserNodeExt
 
+[![Build Status](https://github.com/synvert-hq/parser_node_ext/actions/workflows/main.yml/badge.svg)](https://github.com/synvert-hq/parser_node_ext/actions/workflows/main.yml)
+[![Gem Version](https://img.shields.io/gem/v/parser_node_ext.svg)](https://rubygems.org/gems/parser_node_ext)
+
 It assigns names to the child nodes of the [parser](https://rubygems.org/gems/parser).
 
 ```ruby
