@@ -10,12 +10,12 @@ Gem::Specification.new do |spec|
 
   spec.summary = "extend parser node"
   spec.description = "extend parser node, add parent and sibling, use meaning properties to get child node"
-  spec.homepage = "https://github.com/xinminlabs/parser_node_ext"
+  spec.homepage = "https://github.com/synvert-hq/parser_node_ext"
   spec.required_ruby_version = ">= 2.6.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/xinminlabs/parser_node_ext"
-  spec.metadata["changelog_uri"] = "https://github.com/xinminlabs/parser_node_ext/blob/main/CHANGELOG.md"
+  spec.metadata["source_code_uri"] = "https://github.com/synvert-hq/parser_node_ext"
+  spec.metadata["changelog_uri"] = "https://github.com/synvert-hq/parser_node_ext/blob/main/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
