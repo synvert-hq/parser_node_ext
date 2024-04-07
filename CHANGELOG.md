@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.3.0 (2024-04-07)
+
+* Add github actions
+* Remove `siblings` method
+* Abstract `parser_node_ext/parent_node_ext`
+
 ## 1.2.2 (2024-02-10)
 
 * Remove `to_hash` extend
