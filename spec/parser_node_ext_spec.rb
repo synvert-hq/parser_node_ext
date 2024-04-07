@@ -15,17 +15,6 @@ RSpec.describe ParserNodeExt do
     end
   end
 
-  describe '#siblings' do
-    it 'gets sibling nodes' do
-      node = parse(<<~EOS)
-        def foobar; end
-        def foo; end
-        def bar; end
-      EOS
-      expect(node.children.first.siblings).to eq [node.children[1], node.children[-1]]
-    end
-  end
-
   describe '#variable' do
     it 'gets for masgn' do
       node = parse('a, b = 1, 2')

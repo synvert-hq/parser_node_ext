@@ -145,13 +145,6 @@ module ParserNodeExt
         @mutable_attributes[:parent] = node
       end
 
-      # Get the sibling nodes.
-      # @return [Array<Parser::AST::Node>] sibling nodes.
-      def siblings
-        index = parent.children.index(self)
-        parent.children[index + 1..]
-      end
-
       # Dyamically defined method based on const TYPE_CHILDREN.
       TYPE_CHILDREN.values.flatten.uniq.each do |method_name|
         define_method(method_name) do
