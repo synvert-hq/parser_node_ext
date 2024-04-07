@@ -19,6 +19,12 @@ It also adds some helpers
 node.foo_pair # get the pair node of hash foo key
 node.foo_value # get the value node of the hash foo key
 node.foo_source # get the source of the value node of the hash foo key
+node.keys # get key nodes of the hash node
+node.values # get value nodes of the hash node
+
+# all nodes
+node.to_value # get the value of the node, like `true`, `false`, `nil`, `1`, `"foo"`
+node.to_source # get the source code of the node
 ```
 
 ## Installation
