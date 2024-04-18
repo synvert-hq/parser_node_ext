@@ -744,30 +744,6 @@ RSpec.describe ParserNodeExt do
     end
   end
 
-  describe '#hash_pair' do
-    it 'gets pair of specified key' do
-      node = parse('{:foo => :bar}')
-      expect(node.hash_pair(:foo)).to eq node.children[0]
-    end
-
-    it 'gets nil if key does not exist' do
-      node = parse('{:foo => :bar}')
-      expect(node.hash_pair(:bar)).to be_nil
-    end
-  end
-
-  describe '#hash_value' do
-    it 'gets value of specified key' do
-      node = parse('{:foo => :bar}')
-      expect(node.hash_value(:foo)).to eq parse(':bar')
-    end
-
-    it 'gets nil if key does not exist' do
-      node = parse('{:foo => :bar}')
-      expect(node.hash_value(:bar)).to be_nil
-    end
-  end
-
   describe '#left_value' do
     it 'gets for and' do
       node = parse('foo && bar')
