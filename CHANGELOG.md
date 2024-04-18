@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.2 (2024-04-18)
+
+* Remove `hash_pair` and `hash_value` methods
+
 ## 1.3.1 (2024-04-18)
 
 * Remove `.key?` method
