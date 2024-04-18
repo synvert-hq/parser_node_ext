@@ -319,21 +319,6 @@ module ParserNodeExt
         end
       end
 
-      # Check if :hash node contains specified key.
-      # @example
-      #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))
-      #   node.key?(:foo) # true
-      # @param [Symbol, String] key value.
-      # @return [Boolean] true if specified key exists.
-      # @raise [MethodNotSupported] if calls on other node.
-      def key?(key)
-        if %i[hash hash_pattern].include?(type)
-          pairs.any? { |pair_node| pair_node.key.to_value == key }
-        else
-          raise MethodNotSupported, "key? is not supported for #{self}"
-        end
-      end
-
       # Get :hash pair node according to specified key.
       # @example
       #   node # s(:hash, s(:pair, s(:sym, :foo), s(:sym, :bar)))
@@ -422,20 +407,20 @@ module ParserNodeExt
           return children.send(method_name, *args, &block)
         elsif :hash == type && method_name.to_s.end_with?('_pair')
           key = method_name.to_s[0..-6]
-          return hash_pair(key.to_sym) if key?(key.to_sym)
-          return hash_pair(key.to_s) if key?(key.to_s)
+          return hash_pair(key.to_sym) if keys.map(&:to_value).include?(key.to_sym)
+          return hash_pair(key.to_s) if keys.map(&:to_value).include?(key.to_s)
 
           return nil
         elsif :hash == type && method_name.to_s.end_with?('_value')
           key = method_name.to_s[0..-7]
-          return hash_value(key.to_sym) if key?(key.to_sym)
-          return hash_value(key.to_s) if key?(key.to_s)
+          return hash_value(key.to_sym) if keys.map(&:to_value).include?(key.to_sym)
+          return hash_value(key.to_s) if keys.map(&:to_value).include?(key.to_s)
 
           return nil
         elsif :hash == type && method_name.to_s.end_with?('_source')
           key = method_name.to_s[0..-8]
-          return hash_value(key.to_sym)&.to_source if key?(key.to_sym)
-          return hash_value(key.to_s)&.to_source if key?(key.to_s)
+          return hash_value(key.to_sym)&.to_source if keys.map(&:to_value).include?(key.to_sym)
+          return hash_value(key.to_s)&.to_source if keys.map(&:to_value).include?(key.to_s)
 
           return ''
         end
@@ -448,13 +433,13 @@ module ParserNodeExt
           return true
         elsif :hash == type && method_name.to_s.end_with?('_pair')
           key = method_name.to_s[0..-6]
-          return key?(key.to_sym) || key?(key.to_s)
+          return keys.map(&:to_value).include?(key.to_sym) || keys.map(&:to_value).include?(key.to_s)
         elsif :hash == type && method_name.to_s.end_with?('_value')
           key = method_name.to_s[0..-7]
-          return key?(key.to_sym) || key?(key.to_s)
+          return keys.map(&:to_value).include?(key.to_sym) || keys.map(&:to_value).include?(key.to_s)
         elsif :hash == type && method_name.to_s.end_with?('_source')
           key = method_name.to_s[0..-8]
-          return key?(key.to_sym) || key?(key.to_s)
+          return keys.map(&:to_value).include?(key.to_sym) || keys.map(&:to_value).include?(key.to_s)
         end
 
         super

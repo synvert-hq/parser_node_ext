@@ -744,18 +744,6 @@ RSpec.describe ParserNodeExt do
     end
   end
 
-  describe '#key?' do
-    it 'gets true if key exists' do
-      node = parse('{:foo => :bar}')
-      expect(node.key?(:foo)).to be_truthy
-    end
-
-    it 'gets false if key does not exist' do
-      node = parse('{:foo => :bar}')
-      expect(node.key?('foo')).to be_falsey
-    end
-  end
-
   describe '#hash_pair' do
     it 'gets pair of specified key' do
       node = parse('{:foo => :bar}')
