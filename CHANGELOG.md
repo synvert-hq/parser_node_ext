@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.1 (2024-04-18)
+
+* Remove `.key?` method
+
 ## 1.3.0 (2024-04-07)
 
 * Add github actions
