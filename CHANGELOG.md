@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.0 (2024-07-16)
+
+* require `parser_node_ext/parent_node_ext` back
+
 ## 1.3.2 (2024-04-18)
 
 * Remove `hash_pair` and `hash_value` methods
