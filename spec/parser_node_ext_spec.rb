@@ -258,6 +258,19 @@ RSpec.describe ParserNodeExt do
     end
   end
 
+  describe '#fullname' do
+    it 'gets for module node' do
+      node = parse('module Foo; module Bar; end; end')
+      expect(node.fullname).to eq 'Foo'
+      expect(node.body.first.fullname).to eq 'Foo::Bar'
+    end
+
+    it 'gets for class node' do
+      node = parse('module Foo; module Bar; class Synvert; end; end; end')
+      expect(node.body.first.body.first.fullname).to eq 'Foo::Bar::Synvert'
+    end
+  end
+
   describe '#parent_class' do
     it 'gets for class node' do
       node = parse('class Post < ActiveRecord::Base; end')

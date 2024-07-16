@@ -130,6 +130,16 @@ module ParserNodeExt
         end
       end
 
+      def fullname
+        if %i[class module].include?(type)
+          if parent&.respond_to?(:fullname)
+            "#{parent.fullname}::#{name.to_source}"
+          else
+            name.to_source
+          end
+        end
+      end
+
       # Get arguments of node.
       # It supports :block, :csend, :def, :defined?, :defs, :send, :yeild nodes.
       # @example
@@ -139,7 +149,7 @@ module ParserNodeExt
       # @raise [MethodNotSupported] if calls on other node.
       def arguments
         case type
-        when :def, :block
+        when :def
           children[1].type == :args ? children[1].children : [children[1]]
         when :defs
           children[2].type == :args ? children[2].children : [children[2]]
