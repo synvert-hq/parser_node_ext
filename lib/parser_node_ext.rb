@@ -3,6 +3,7 @@
 require_relative "parser_node_ext/version"
 
 require 'parser'
+require_relative "parser_node_ext/parent_node_ext"
 
 module ParserNodeExt
   class MethodNotSupported < StandardError; end
