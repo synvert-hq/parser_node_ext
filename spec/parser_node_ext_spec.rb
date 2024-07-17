@@ -258,16 +258,16 @@ RSpec.describe ParserNodeExt do
     end
   end
 
-  describe '#fullname' do
+  describe '#full_name' do
     it 'gets for module node' do
       node = parse('module Foo; module Bar; end; end')
-      expect(node.fullname).to eq 'Foo'
-      expect(node.body.first.fullname).to eq 'Foo::Bar'
+      expect(node.full_name).to eq 'Foo'
+      expect(node.body.first.full_name).to eq 'Foo::Bar'
     end
 
     it 'gets for class node' do
       node = parse('module Foo; module Bar; class Synvert; end; end; end')
-      expect(node.body.first.body.first.fullname).to eq 'Foo::Bar::Synvert'
+      expect(node.body.first.body.first.full_name).to eq 'Foo::Bar::Synvert'
     end
   end
 

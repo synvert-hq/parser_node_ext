@@ -130,10 +130,10 @@ module ParserNodeExt
         end
       end
 
-      def fullname
+      def full_name
         if %i[class module].include?(type)
-          if parent&.respond_to?(:fullname)
-            "#{parent.fullname}::#{name.to_source}"
+          if parent&.respond_to?(:full_name)
+            "#{parent.full_name}::#{name.to_source}"
           else
             name.to_source
           end
