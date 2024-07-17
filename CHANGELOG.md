@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.2 (2024-07-17)
+
+* Rename `fullname` to `full_name`
+
 ## 1.4.1 (2024-07-17)
 
 * Add `fullname` to `module` and `class`
