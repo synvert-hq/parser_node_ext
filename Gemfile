@@ -5,6 +5,8 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in parser_node_ext.gemspec
 gemspec
 
+gem "ostruct", "~> 0.6"
+
 gem "rake", "~> 13.0"
 
 gem "rspec", "~> 3.0"
